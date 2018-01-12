@@ -54,7 +54,7 @@ void walk(int);
 void standby();
 void jump(int);
 void jump_superhigh(int);
-
+void initaction();
 bool isFrame;
 
 
@@ -78,6 +78,8 @@ float expansion_co;
 float delta;
 float num;
 float globaltime;
+int out;
+bool refresh = false;
 
 GLfloat g_vertex_buffer_data[12] = {
 	-1,-1,
@@ -92,7 +94,8 @@ int pNo;
 int oNo;
 
 float angles[3][PARTSNUM];
-float position = -15.0;
+float offsets[3][PARTSNUM];
+float position = -2.0;
 float angle = 0.0;
 float eyeAngley = 0.0;
 float eyedistance = 30.0;

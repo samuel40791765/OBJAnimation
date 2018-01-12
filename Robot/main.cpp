@@ -150,7 +150,6 @@ void Mouse(int button,int state,int x,int y){
 }
 void idle(int dummy){
 	isFrame = true;
-	int out, out_walk, out_jump;
 	num += 0.1;
 	globaltime = (glutGet(GLUT_ELAPSED_TIME));
 	//printf("%f\n", globaltime);
@@ -181,7 +180,10 @@ void idle(int dummy){
 		if (out > 36) out = 0;
 	}
 	glutPostRedisplay();
-	
+	if (refresh) {
+		refresh = false;
+		out = 0;
+	}
 	glutTimerFunc (50, idle, out); 
 }
 
@@ -195,14 +197,11 @@ void jump_superhigh(int frame) {
 	switch (frame) {
 	case 0:
 		position -= 0.1;
-
 		angles[0][9] = 2;
 		angles[0][12] = 2;
 
-		angles[0][3] = -3;
-		angles[0][4] = 6;
-		angles[0][6] = -3;
-		angles[0][7] = 6;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
 		break;
 	case 1:
 	case 2:
@@ -211,10 +210,8 @@ void jump_superhigh(int frame) {
 		angles[0][9] = 4;
 		angles[0][12] = 4;
 
-		angles[0][3] = -6;
-		angles[0][4] = 12;
-		angles[0][6] = -6;
-		angles[0][7] = 12;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
 		break;
 	case 3:
 	case 4:
@@ -223,10 +220,8 @@ void jump_superhigh(int frame) {
 		angles[0][9] = 6;
 		angles[0][12] = 6;
 
-		angles[0][3] = -9;
-		angles[0][4] = 18;
-		angles[0][6] = -9;
-		angles[0][7] = 18;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
 		break;
 	case 5:
 	case 6:
@@ -235,11 +230,8 @@ void jump_superhigh(int frame) {
 
 		angles[0][9] += 8;
 		angles[0][12] += 8;
-
-		angles[0][3] = -12;
-		angles[0][4] = 24;
-		angles[0][6] = -12;
-		angles[0][7] = 24;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
 		break;
 	case 7:
 	case 8:
@@ -248,10 +240,8 @@ void jump_superhigh(int frame) {
 		angles[0][9] = 10;
 		angles[0][12] = 10;
 
-		angles[0][3] = -15;
-		angles[0][4] = 30;
-		angles[0][6] = -15;
-		angles[0][7] = 30;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
 		break;
 	case 9:
 	case 10:
@@ -260,10 +250,8 @@ void jump_superhigh(int frame) {
 		angles[0][9] = 12;
 		angles[0][12] = 12;
 
-		angles[0][3] = -18;
-		angles[0][4] = 36;
-		angles[0][6] = -18;
-		angles[0][7] = 36;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
 		break;
 	case 11:
 	case 12:
@@ -272,10 +260,8 @@ void jump_superhigh(int frame) {
 		angles[0][9] = 14;
 		angles[0][12] = 14;
 
-		angles[0][3] = -21;
-		angles[0][4] = 42;
-		angles[0][6] = -21;
-		angles[0][7] = 42;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
 		break;
 	case 13:
 	case 14:
@@ -284,10 +270,8 @@ void jump_superhigh(int frame) {
 		angles[0][9] = 16;
 		angles[0][12] = 16;
 
-		angles[0][3] = -24;
-		angles[0][4] = 48;
-		angles[0][6] = -24;
-		angles[0][7] = 48;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
 		break;
 	case 15:
 	case 16:
@@ -295,11 +279,8 @@ void jump_superhigh(int frame) {
 
 		angles[0][9] = 18;
 		angles[0][12] = 18;
-
-		angles[0][3] = -27;
-		angles[0][4] = 54;
-		angles[0][6] = -27;
-		angles[0][7] = 54;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
 		break;
 	case 17:
 	case 18:
@@ -308,10 +289,8 @@ void jump_superhigh(int frame) {
 		angles[0][9] = 20;
 		angles[0][12] = 20;
 
-		angles[0][3] = -30;
-		angles[0][4] = 60;
-		angles[0][6] = -30;
-		angles[0][7] = 60;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
 		break;
 	case 19:
 		angles[0][9] -= 10;
@@ -323,10 +302,8 @@ void jump_superhigh(int frame) {
 		angles[0][9] -= 10;
 		angles[0][12] -= 10;
 
-		angles[0][3] = -20;
-		angles[0][4] = 40;
-		angles[0][6] = -20;
-		angles[0][7] = 40;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
 		break;
 	case 21:
 		angles[0][9] -= 10;
@@ -338,10 +315,8 @@ void jump_superhigh(int frame) {
 		angles[0][9] -= 10;
 		angles[0][12] -= 10;
 
-		angles[0][3] = -10;
-		angles[0][4] = 20;
-		angles[0][6] = -10;
-		angles[0][7] = 20;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
 		break;
 	case 23:
 		angles[0][9] -= 10;
@@ -352,34 +327,32 @@ void jump_superhigh(int frame) {
 
 		angles[0][9] -= 10;
 		angles[0][12] -= 10;
-
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
 		break;
 	case 25:
 		position += 0.7;
 
 		angles[0][9] -= 10;
 		angles[0][12] -= 10;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
 		break;
 	case 26:
 		position += 0.6;
 
 		angles[0][9] -= 10;
 		angles[0][12] -= 10;
-
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
 		break;
 	case 27:
 		position += 0.5;
 
 		angles[0][9] -= 10;
 		angles[0][12] -= 10;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
 		break;
 	case 28:
 		position += 0.4;
@@ -387,10 +360,6 @@ void jump_superhigh(int frame) {
 		angles[0][9] -= 10;
 		angles[0][12] -= 10;
 
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
 		break;
 	case 29:
 		position += 0.3;
@@ -404,10 +373,6 @@ void jump_superhigh(int frame) {
 		angles[0][9] -= 10;
 		angles[0][12] -= 10;
 
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
 		break;
 	case 31:
 		position += 0.1;
@@ -421,10 +386,6 @@ void jump_superhigh(int frame) {
 		angles[0][9] += 15;
 		angles[0][12] += 15;
 
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
 		break;
 	case 33:
 		position -= 0.2;
@@ -438,10 +399,6 @@ void jump_superhigh(int frame) {
 		angles[0][9] += 15;
 		angles[0][12] += 15;
 
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
 		break;
 	case 35:
 		position -= 0.4;
@@ -455,10 +412,6 @@ void jump_superhigh(int frame) {
 		angles[0][9] += 15;
 		angles[0][12] += 15;
 
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
 		break;
 	case 37:
 		position -= 0.6;
@@ -470,174 +423,77 @@ void jump_superhigh(int frame) {
 void jump(int frame) {
 	switch (frame) {
 	case 0:
-		position -= 0.1;
-
-		angles[0][3] = -3;
-		angles[0][4] = 6;
-		angles[0][6] = -3;
-		angles[0][7] = 6;
-		break;
 	case 1:
 	case 2:
-		position -= 0.1;
-
-		angles[0][3] = -6;
-		angles[0][4] = 12;
-		angles[0][6] = -6;
-		angles[0][7] = 12;
-		break;
 	case 3:
 	case 4:
-		position -= 0.1;
-
-		angles[0][3] = -9;
-		angles[0][4] = 18;
-		angles[0][6] = -9;
-		angles[0][7] = 18;
-		break;
 	case 5:
 	case 6:
-		position -= 0.1;
-
-		angles[0][3] = -12;
-		angles[0][4] = 24;
-		angles[0][6] = -12;
-		angles[0][7] = 24;
-		break;
 	case 7:
 	case 8:
-		position -= 0.1;
-
-		angles[0][3] = -15;
-		angles[0][4] = 30;
-		angles[0][6] = -15;
-		angles[0][7] = 30;
-		break;
 	case 9:
 	case 10:
-		position -= 0.1;
-
-		angles[0][3] = -18;
-		angles[0][4] = 36;
-		angles[0][6] = -18;
-		angles[0][7] = 36;
-		break;
 	case 11:
 	case 12:
-		position -= 0.1;
-
-		angles[0][3] = -21;
-		angles[0][4] = 42;
-		angles[0][6] = -21;
-		angles[0][7] = 42;
-		break;
 	case 13:
 	case 14:
-		position -= 0.1;
-
-		angles[0][3] = -24;
-		angles[0][4] = 48;
-		angles[0][6] = -24;
-		angles[0][7] = 48;
-		break;
 	case 15:
 	case 16:
-		position -= 0.1;
-
-		angles[0][3] = -27;
-		angles[0][4] = 54;
-		angles[0][6] = -27;
-		angles[0][7] = 54;
-		break;
 	case 17:
 	case 18:
 		position -= 0.1;
-
-		angles[0][3] = -30;
-		angles[0][4] = 60;
-		angles[0][6] = -30;
-		angles[0][7] = 60;
+		offsets[1][3] += 0.05;
+		offsets[1][6] += 0.05;
 		break;
 	case 19:
 	case 20:
 		position += 0.333;
 
-		angles[0][3] = -20;
-		angles[0][4] = 40;
-		angles[0][6] = -20;
-		angles[0][7] = 40;
+		offsets[1][3] -= 0.15833;
+		offsets[1][6] -= 0.15833;
 		break;
 	case 21:
 	case 22:
 		position += 0.333;
 
-		angles[0][3] = -10;
-		angles[0][4] = 20;
-		angles[0][6] = -10;
-		angles[0][7] = 20;
+		offsets[1][3] -= 0.15833;
+		offsets[1][6] -= 0.15833;
 		break;
 	case 23:
 	case 24:
 		position += 0.334;
 
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
+		offsets[1][3] -= 0.15833;
+		offsets[1][6] -= 0.15833;
 		break;
 	case 25:
 	case 26:
 		position += 0.3;
-
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
 		break;
 	case 27:
 	case 28:
 		position += 0.2;
-
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
+		//offsets[1][3] -= 0.2;
+		//offsets[1][6] -= 0.2;
 		break;
 	case 29:
 	case 30:
 		position += 0.1;
 
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
 		break;
 	case 31:
 	case 32:
 		position -= 0.1;
 
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
 		break;
 	case 33:
 	case 34:
 		position -= 0.2;
-
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
 		break;
 	case 35:
 	case 36:
 		position -= 0.3;
 
-		angles[0][3] = 0;
-		angles[0][4] = 0;
-		angles[0][6] = 0;
-		angles[0][7] = 0;
 		break;
 	}
 
@@ -645,18 +501,15 @@ void jump(int frame) {
 void walk(int frame) {
 	switch (frame) {
 	case 0:
-		//¥ª¤WÁu
+		//right arm
 		angles[0][9] = -4;
-		//¥k¤WÁu
+		//left arm
 		angles[0][12] = 4;
-		//¥ª¤j»L
+		//left leg
 		angles[0][3] = 3;
-		//¥ª¤p»L
-		angles[0][4] = 6;
-		//¥k¤j»L
+		//right leg
 		angles[0][6] = -3;
-		//¥k¤p»L
-		angles[0][7] = 1;
+
 		break;
 	case 1:
 		angles[0][9] = -8;
@@ -817,11 +670,7 @@ void init(){
 
 	isFrame = false;
 	pNo = 0;
-	for(int i = 0;i<PARTSNUM;i++)//初始化角度陣列
-		angles[0][i] = 0.0;
-
-	
-
+	initaction();
 	//VAO
 	glGenVertexArrays(1,&VAO);
 	glBindVertexArray(VAO);
@@ -1290,68 +1139,44 @@ void updateModels(){
 
 	//============================================================
 	//ÀY==========================================================
-	Translation[1] = translate(0, -1.8, 0);
+	Translation[1] = translate(0, 1.2, 0);
 	Models[1] = Models[0] * Translation[1];
 	//============================================================
 	//Áv³¡==========================================================
-	Translation[2] = translate(-1.5, -1, -0.5);
+	Translation[2] = translate(0.5,0.7,0);
 	Models[2] = Models[1] * Translation[2];
-	Translation[4] = translate(1.2, -0.6, -0.5);
+	Translation[4] = translate(-0.5,0.7,0);
 	Models[4] = Models[1] * Translation[4];
 	//============================================================
-	//¥ª¤j»L
-	Rotatation[3] = rotate(angles[0][3], 1, 0, 0);
-	Translation[3] = translate(0.18, 0.3, 0);
-	Models[3] = Models[0] * Translation[3] * Rotatation[3];
-	//¥ª¤p»L
-	//Rotatation[4] = rotate(angles[0][4], 1, 0, 0);
-	
-	//¸}´x
-	Translation[5] = translate(0.05, -0.9, 0);
-	Models[5] = Models[4] * Translation[5];
-	//yaw = DOR(beta);r = 3.7;
-	//alpha = angles[0][1];
-	//gamma = 10;
-	//Rotatation[1] = rotate(alpha,1,0,0)*rotate(gamma,0,0,1);//¦V«e±ÛÂà*¦V¥k±ÛÂà
-	//Translation[1] = translate(3.7,1,-0.5);
 
-	//============================================================
-	//¥k¸}=========================================================
-	//¥k¤j»L
+
+	//left leg
+	Rotatation[3] = rotate(angles[0][3], 1, 0, 0);
+	Translation[3] = translate(0.18, offsets[1][3], 0);
+	Models[3] = Models[0] * Translation[3] * Rotatation[3];
+	//right leg
 	Rotatation[6] = rotate(angles[0][6], 1, 0, 0);
-	Translation[6] = translate(-0.18, 0.3, 0);
+	Translation[6] = translate(-0.18, offsets[1][6], 0);
 	Models[6] = Models[0] * Translation[6] * Rotatation[6];
-	//¥k¤p»L
-	Rotatation[7] = rotate(angles[0][7], 1, 0, 0);
-	Translation[7] = translate(-0.1, -0.55, 0);
-	Models[7] = Models[6] * Translation[7] * Rotatation[7];
-	//¥k¸}´x
-	Translation[8] = translate(-0.05, -1, 0);
-	Models[8] = Models[7] * Translation[8];
+
+
 	//=============================================================
 	//¥ª¤â
-	//¥ª¤WÁu
-	//Rotatation[9] = rotate(angles[0][9], 1, 0, 0) * rotate(angles[1][9], 0, 1, 0);
-	Translation[9] = translate(1.1,0, 0);
-	Models[9] = Models[0] * Translation[9];
+	//right arm
+	Rotatation[9] = rotate(angles[0][9], 1, 0, 0) * rotate(angles[1][9], 0, 1, 0) * rotate(angles[2][9], 0, 0, 1);
+	Translation[9] = translate(-1,0.8, 0);
+	Models[9] = Models[0] * Translation[9] * Rotatation[9];	
 	//¥ª¤UÁu
-	Translation[10] = translate(1, 0, 0);
+	Translation[10] = translate(-1, 0, 0);
 	Models[10] = Models[9] * Translation[10];
-	//¥ª¤â´x
-	Translation[11] = translate(0.4, -0.49, 0.01);
-	Models[11] = Models[10] * Translation[11];
-	//=============================================================
-	//¥k¤â
-	//¥k¤WÁu
-	//Rotatation[12] = rotate(angles[0][12], 1, 0, 0) * rotate(angles[1][12], 0, 1, 0);
-	Translation[12] = translate(-1.2, 0, 0);
-	Models[12] = Models[0] * Translation[12];
+
+	//left arm
+	Rotatation[12] = rotate(angles[0][12], 1, 0, 0) * rotate(angles[1][12], 0, 1, 0) * rotate(angles[2][12], 0, 0, 1);
+	Translation[12] = translate(1, 0.8, 0);
+	Models[12] = Models[0] * Translation[12] * Rotatation[12];
 	//¥k¤UÁu
-	Translation[13] = translate(-0.62, -0.01, 0);
+	Translation[13] = translate(1, 0, 0);
 	Models[13] = Models[12] * Translation[13];
-	//¥k¤â´x
-	Translation[14] = translate(-0.3, -0.39, 0);
-	Models[14] = Models[13] * Translation[14];
 
 }
 
@@ -1459,6 +1284,7 @@ void Keyboard(unsigned char key, int x, int y){
 }
 void menuEvents(int option){}
 void ActionMenuEvents(int option){
+	initaction();
 	switch(option){
 	case 0:
 		action = IDLE;
@@ -1489,7 +1315,7 @@ void ShaderMenuEvents(int option){
 	reloadshader();
 	switch (option) {
 	case 0:
-
+	
 		break;
 	case 1:
 
@@ -1501,6 +1327,32 @@ void ShaderMenuEvents(int option){
 
 		break;
 	}
+}
+
+void initaction() {
+	
+	for (int i = 0; i < PARTSNUM; i++) {
+		Models[i] = mat4(1.0f);
+	}
+	position = -2.0;
+	for (int i = 0; i < PARTSNUM; i++)//初始化角度陣列
+	{
+		angles[0][i] = 0.0;
+		angles[1][i] = 0.0;
+		angles[2][i] = 0.0;
+	}
+	angles[2][9] = 50;
+	angles[2][12] = -50;
+
+	for (int i = 0; i < PARTSNUM; i++)//初始化角度陣列
+	{
+		offsets[0][i] = 0.0;
+		offsets[1][i] = 0.0;
+		offsets[2][i] = 0.0;
+	}
+	offsets[1][6] = -0.8;
+	offsets[1][3] = -0.8;
+	refresh = true;
 }
 
 void pShaderMenuEvents(int option) {
