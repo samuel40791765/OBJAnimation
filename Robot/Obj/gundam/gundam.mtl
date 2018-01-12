@@ -1,0 +1,77 @@
+newmtl blinn1SG
+illum 4
+Kd 1.00 0.41 0.74
+Ka 0.00 0.00 0.00
+Ks 0.50 0.50 0.50
+Tf 1.00 1.00 1.00
+Ni 1.00
+
+newmtl initialShadingGroup
+illum 4
+Kd 0.50 0.50 0.50
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+
+newmtl mia_material_x1SG
+illum 4
+Kd 0.647 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+
+newmtl mia_material_x2SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+
+newmtl mia_material_x3SG
+illum 4
+Kd 0.432 0.13 0.097
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+
+newmtl mia_material_x4SG
+illum 4
+Kd 0.5 0.5 0.5
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+
+newmtl mia_material_x5SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+
+newmtl mia_material_x6SG
+illum 4
+Kd 0.902 0.61 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+
+newmtl mia_material_x7SG
+illum 4
+Kd 0.00 0.375 1
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+
+newmtl mia_material_x8SG
+illum 4
+Kd 0.355 0.631 0.903
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+
+newmtl mia_material_x9SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00

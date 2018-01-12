@@ -92,10 +92,10 @@ int pNo;
 int oNo;
 
 float angles[3][PARTSNUM];
-float position = 0.0;
+float position = -15.0;
 float angle = 0.0;
 float eyeAngley = 0.0;
-float eyedistance = 20.0;
+float eyedistance = 30.0;
 float size = 1;
 float movex,movey;
 int MatricesIdx;

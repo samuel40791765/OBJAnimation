@@ -1159,7 +1159,7 @@ void Obj2Buffer(){
 	std::vector<vec3> Kss;
 	std::vector<std::string> Materials;//mtl-name
 	std::string texture;
-	loadMTL("Obj/Android_Robot/AndroidRobot.mtl",Kds,Kas,Kss,Materials,texture);
+	loadMTL("Obj/Android_Robot/body.mtl",Kds,Kas,Kss,Materials,texture);
 	//printf("%d\n",texture);
 	for(int i = 0;i<Materials.size();i++){
 		printf("%d\n", i);
@@ -1167,7 +1167,30 @@ void Obj2Buffer(){
 		//  name            vec3
 		KDs[mtlname] = Kds[i];
 	}
-	load2Buffer("Obj/Android_Robot/AndroidRobot.obj", 0);
+	load2Buffer("Obj/Android_Robot/body.obj", 0);
+	load2Buffer("Obj/Android_Robot/head.obj", 1);
+	//load2Buffer("Obj/Stormtrooper2/again/head.obj",1);
+	load2Buffer("Obj/Android_Robot/leftantenna.obj", 2);
+	load2Buffer("Obj/Android_Robot/rightantenna.obj", 4);
+	//load2Buffer("Obj/Stormtrooper2/again/hip.obj",2);
+
+	//load2Buffer("Obj/Stormtrooper2/again/left_thigh.obj",3);
+	//load2Buffer("Obj/Stormtrooper2/again/left_leg.obj",4);
+	load2Buffer("Obj/Android_Robot/leftleg.obj", 3);
+	//load2Buffer("Obj/Stormtrooper2/again/left_foot.obj",5);
+
+	//load2Buffer("Obj/Stormtrooper2/again/right_thigh.obj",6);
+	//load2Buffer("Obj/Stormtrooper2/again/right_leg.obj",7);
+	//load2Buffer("Obj/Stormtrooper2/again/right_foot.obj",8);
+	load2Buffer("Obj/Android_Robot/rightleg.obj", 6);
+
+	load2Buffer("Obj/Android_Robot/leftbicep.obj", 12);
+	load2Buffer("Obj/Android_Robot/lefthand.obj", 13);
+	//load2Buffer("Obj/Stormtrooper2/again/left_lower_arm.obj",10);
+	//load2Buffer("Obj/Stormtrooper2/again/left_hand.obj",11);
+
+	load2Buffer("Obj/Android_Robot/rightbicep.obj", 9);
+	load2Buffer("Obj/Android_Robot/righthand.obj", 10);
 	
 	/*load2Buffer("Obj/Stormtrooper2/again/body.obj",0);
 
@@ -1267,21 +1290,22 @@ void updateModels(){
 
 	//============================================================
 	//ÀY==========================================================
-	Translation[1] = translate(0, 0.55, 0.05);
+	Translation[1] = translate(0, -1.8, 0);
 	Models[1] = Models[0] * Translation[1];
 	//============================================================
 	//Áv³¡==========================================================
-	Translation[2] = translate(-0.015, -0.5, 0.05);
-	Models[2] = Models[0] * Translation[2];
+	Translation[2] = translate(-1.5, -1, -0.5);
+	Models[2] = Models[1] * Translation[2];
+	Translation[4] = translate(1.2, -0.6, -0.5);
+	Models[4] = Models[1] * Translation[4];
 	//============================================================
 	//¥ª¤j»L
 	Rotatation[3] = rotate(angles[0][3], 1, 0, 0);
-	Translation[3] = translate(0.18, -0.31, 0.015);
-	Models[3] = Models[2] * Translation[3] * Rotatation[3];
+	Translation[3] = translate(0.18, 0.3, 0);
+	Models[3] = Models[0] * Translation[3] * Rotatation[3];
 	//¥ª¤p»L
-	Rotatation[4] = rotate(angles[0][4], 1, 0, 0);
-	Translation[4] = translate(0.1, -0.6, 0) * Rotatation[4];
-	Models[4] = Models[3] * Translation[4];
+	//Rotatation[4] = rotate(angles[0][4], 1, 0, 0);
+	
 	//¸}´x
 	Translation[5] = translate(0.05, -0.9, 0);
 	Models[5] = Models[4] * Translation[5];
@@ -1295,8 +1319,8 @@ void updateModels(){
 	//¥k¸}=========================================================
 	//¥k¤j»L
 	Rotatation[6] = rotate(angles[0][6], 1, 0, 0);
-	Translation[6] = translate(-0.18, -0.27, 0.015);
-	Models[6] = Models[2] * Translation[6] * Rotatation[6];
+	Translation[6] = translate(-0.18, 0.3, 0);
+	Models[6] = Models[0] * Translation[6] * Rotatation[6];
 	//¥k¤p»L
 	Rotatation[7] = rotate(angles[0][7], 1, 0, 0);
 	Translation[7] = translate(-0.1, -0.55, 0);
@@ -1307,11 +1331,11 @@ void updateModels(){
 	//=============================================================
 	//¥ª¤â
 	//¥ª¤WÁu
-	Rotatation[9] = rotate(angles[0][9], 1, 0, 0) * rotate(angles[1][9], 0, 1, 0);
-	Translation[9] = translate(0.245, 0.242, 0.0535);
-	Models[9] = Models[0] * Translation[9] * Rotatation[9];
+	//Rotatation[9] = rotate(angles[0][9], 1, 0, 0) * rotate(angles[1][9], 0, 1, 0);
+	Translation[9] = translate(1.1,0, 0);
+	Models[9] = Models[0] * Translation[9];
 	//¥ª¤UÁu
-	Translation[10] = translate(0.24, -0.38, 0);
+	Translation[10] = translate(1, 0, 0);
 	Models[10] = Models[9] * Translation[10];
 	//¥ª¤â´x
 	Translation[11] = translate(0.4, -0.49, 0.01);
@@ -1319,11 +1343,11 @@ void updateModels(){
 	//=============================================================
 	//¥k¤â
 	//¥k¤WÁu
-	Rotatation[12] = rotate(angles[0][12], 1, 0, 0) * rotate(angles[1][12], 0, 1, 0);
-	Translation[12] = translate(-0.253, 0.256, 0.0073);
-	Models[12] = Models[0] * Translation[12] * Rotatation[12];
+	//Rotatation[12] = rotate(angles[0][12], 1, 0, 0) * rotate(angles[1][12], 0, 1, 0);
+	Translation[12] = translate(-1.2, 0, 0);
+	Models[12] = Models[0] * Translation[12];
 	//¥k¤UÁu
-	Translation[13] = translate(-0.33, -0.4, 0.05);
+	Translation[13] = translate(-0.62, -0.01, 0);
 	Models[13] = Models[12] * Translation[13];
 	//¥k¤â´x
 	Translation[14] = translate(-0.3, -0.39, 0);
