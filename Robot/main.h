@@ -54,6 +54,9 @@ void walk(int);
 void standby();
 void jump(int);
 void jump_superhigh(int);
+void tornado(int);
+void headspin(int);
+void uppercut(int);
 void initaction();
 bool isFrame;
 
@@ -131,5 +134,8 @@ mat4 Models[PARTSNUM];
 #define IDLE 0
 #define JUMP 2
 #define SUPER_HIGH 3
+#define TORNADO 4
+#define UPPERCUT 5
+#define HEADSPIN 6
 int mode;
 int action;

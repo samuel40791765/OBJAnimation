@@ -103,7 +103,10 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("idle",0);
 	glutAddMenuEntry("walk",1);
 	glutAddMenuEntry("jump", 2);
-	glutAddMenuEntry("happy", 3);
+	glutAddMenuEntry("jump higher", 3);
+	glutAddMenuEntry("tornado", 4);
+	glutAddMenuEntry("uppercut", 5);
+	glutAddMenuEntry("headspin", 6);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);	//與右鍵關聯
 
 	ShaderMenu = glutCreateMenu(ShaderMenuEvents);//建立右鍵菜單
@@ -177,7 +180,21 @@ void idle(int dummy){
 		out = dummy + 1;
 		//printf("%d	", dummy);
 		//printf("%d	", out);
+		if (out > 37) out = 0;
+	}
+	else if (action == TORNADO) {
+		tornado(dummy);
+		out = dummy + 1;
+		//printf("%d	", dummy);
+		//printf("%d	", out);
 		if (out > 36) out = 0;
+	}
+	else if (action == UPPERCUT) {
+		uppercut(dummy);
+		out = dummy + 1;
+		//printf("%d	", dummy);
+		//printf("%d	", out);
+		if (out > 37) out = 0;
 	}
 	glutPostRedisplay();
 	if (refresh) {
@@ -191,6 +208,350 @@ void standby() {
 	for (int i = 0; i < PARTSNUM; i++) {
 		angles[0][i] = 0.0f;
 	}
+}
+
+void uppercut(int frame) {
+	switch (frame) {
+	case 0:
+		position -= 0.1;
+		angles[0][9] = 2;
+		angles[0][12] = 2;
+		angles[2][9] = 70;
+		angles[2][12] = -70;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 1:
+	case 2:
+		position -= 0.1;
+
+		angles[0][9] = 4;
+		angles[0][12] = 4;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 3:
+	case 4:
+		position -= 0.1;
+
+		angles[0][9] = 6;
+		angles[0][12] = 6;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 5:
+	case 6:
+		position -= 0.1;
+
+
+		angles[0][9] += 8;
+		angles[0][12] += 8;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 7:
+	case 8:
+		position -= 0.1;
+
+		angles[0][9] = 10;
+		angles[0][12] = 10;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 9:
+	case 10:
+		position -= 0.1;
+
+		angles[0][9] = 12;
+		angles[0][12] = 12;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 11:
+	case 12:
+		position -= 0.1;
+
+		angles[0][9] = 14;
+		angles[0][12] = 14;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 13:
+	case 14:
+		position -= 0.1;
+
+		angles[0][9] = 16;
+		angles[0][12] = 16;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 15:
+	case 16:
+		position -= 0.1;
+
+		angles[0][9] = 18;
+		angles[0][12] = 18;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 17:
+	case 18:
+		position -= 0.1;
+
+		angles[0][9] = 20;
+		angles[0][12] = 20;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 19:
+		angles[0][9] -= 10;
+		angles[0][12] -= 20;
+		break;
+	case 20:
+		position += 0.333;
+
+		angles[0][9] -= 10;
+		angles[0][12] -= 45;
+		angles[1][0] -= 30;
+
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
+		break;
+	case 21:
+		angles[1][0] -= 30;
+		angles[0][9] -= 10;
+		angles[0][12] -= 45;
+		break;
+	case 22:
+		position += 0.333;
+		angles[1][0] -= 30;
+		angles[0][12] -= 45;
+
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
+		break;
+	case 23:
+		angles[1][0] -= 30;
+		break;
+	case 24:
+		position += 0.334;
+		angles[1][0] -= 30;
+		angles[0][12] -= 45;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
+		break;
+	case 25:
+		position += 0.9;
+		angles[1][0] -= 30;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
+		break;
+	case 26:
+		position += 1.5;
+		angles[1][0] -= 30;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
+		break;
+	case 27:
+		position += 1.2;
+		angles[1][0] -= 30;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
+		break;
+	case 28:
+		position += 1.0;
+		angles[1][0] -= 30;
+
+		break;
+	case 29:
+		position += 0.8;
+		angles[1][0] -= 30;
+		angles[0][12] += 22.5;
+		break;
+	case 30:
+		position += 0.5;
+		angles[1][0] -= 30;
+		angles[0][12] += 22.5;
+		break;
+	case 31:
+		position += 0.2;
+		angles[1][0] -= 30;
+		angles[0][9] += 10;
+		angles[0][12] += 22.5;
+		break;
+	case 32:
+		position -= 0.2;
+
+
+		angles[0][12] += 22.5;
+
+		break;
+	case 33:
+		position -= 0.5;
+
+		angles[0][12] += 22.5;
+		break;
+	case 34:
+		position -= 0.8;
+
+		angles[0][12] += 22.5;
+
+		break;
+	case 35:
+		position -= 1.0;
+		angles[0][12] += 22.5;
+		break;
+	case 36:
+		position -= 1.2;
+		angles[0][12] += 22.5;
+
+		break;
+	case 37:
+		position -= 1.5;
+		printf("%f	", position);
+		break;
+	case 38:
+		break;
+	}
+}
+
+void jump(int frame) {
+	switch (frame) {
+	case 0:
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+	case 9:
+	case 10:
+	case 11:
+	case 12:
+	case 13:
+	case 14:
+	case 15:
+	case 16:
+	case 17:
+	case 18:
+		position -= 0.1;
+		offsets[1][3] += 0.05;
+		offsets[1][6] += 0.05;
+		break;
+	case 19:
+	case 20:
+		position += 0.333;
+
+		offsets[1][3] -= 0.15833;
+		offsets[1][6] -= 0.15833;
+		break;
+	case 21:
+	case 22:
+		position += 0.333;
+
+		offsets[1][3] -= 0.15833;
+		offsets[1][6] -= 0.15833;
+		break;
+	case 23:
+	case 24:
+		position += 0.334;
+
+		offsets[1][3] -= 0.15833;
+		offsets[1][6] -= 0.15833;
+		break;
+	case 25:
+	case 26:
+		position += 0.3;
+		break;
+	case 27:
+	case 28:
+		position += 0.2;
+		//offsets[1][3] -= 0.2;
+		//offsets[1][6] -= 0.2;
+		break;
+	case 29:
+	case 30:
+		position += 0.1;
+
+		break;
+	case 31:
+	case 32:
+		position -= 0.1;
+
+		break;
+	case 33:
+	case 34:
+		position -= 0.2;
+		break;
+	case 35:
+	case 36:
+		position -= 0.3;
+
+		break;
+	}
+
+}
+
+void tornado(int frame) {
+	switch (frame) {
+	case 0:
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+	case 9:
+	case 10:
+	case 11:
+	case 12:
+	case 13:
+	case 14:
+	case 15:
+	case 16:
+	case 17:
+	case 18:
+	case 19:
+	case 20:
+	case 21:
+	case 22:
+	case 23:
+	case 24:
+	case 25:
+	case 26:
+	case 27:
+	case 28:
+	case 29:
+	case 30:
+	case 31:
+	case 32:
+	case 33:
+	case 34:
+	case 35:
+	case 36:
+		angles[2][9] = 0;
+		angles[2][12] = 0;
+		angles[1][9] += 40;
+		angles[1][12] += 40;
+		if (angles[1][9] >= 360)
+			angles[1][9] = 0;
+		if (angles[1][12] >= 360)
+			angles[1][12] = 0;
+		break;
+	}
+
 }
 
 void jump_superhigh(int frame) {
@@ -331,7 +692,7 @@ void jump_superhigh(int frame) {
 		offsets[1][6] -= 0.317;
 		break;
 	case 25:
-		position += 0.7;
+		position += 0.9;
 
 		angles[0][9] -= 10;
 		angles[0][12] -= 10;
@@ -339,7 +700,7 @@ void jump_superhigh(int frame) {
 		offsets[1][6] -= 0.317;
 		break;
 	case 26:
-		position += 0.6;
+		position += 0.7;
 
 		angles[0][9] -= 10;
 		angles[0][12] -= 10;
@@ -414,13 +775,14 @@ void jump_superhigh(int frame) {
 
 		break;
 	case 37:
-		position -= 0.6;
+		position -= 0.7;
 		printf("%f	", position);
 		break;
 	}
+
 }
 
-void jump(int frame) {
+void headspin(int frame) {
 	switch (frame) {
 	case 0:
 	case 1:
@@ -498,6 +860,7 @@ void jump(int frame) {
 	}
 
 }
+
 void walk(int frame) {
 	switch (frame) {
 	case 0:
@@ -1132,7 +1495,7 @@ void updateModels(){
 	float alpha, beta = 0, gamma;
 
 	//Body
-	//Rotatation[0] = rotate(180, 0, 1, 0) * rotate(180, 0, 0, 1);
+	Rotatation[0] = rotate(angles[1][0], 0, 1, 0) * rotate(angles[2][0], 0, 0, 1);
 	Scale[0] = scale(5, 5, 5);
 	Translation[0] = translate(0, position, 0);
 	Models[0] = Translation[0] * Rotatation[0] * Scale[0];
@@ -1163,17 +1526,19 @@ void updateModels(){
 	//=============================================================
 	//¥ª¤â
 	//right arm
-	Rotatation[9] = rotate(angles[0][9], 1, 0, 0) * rotate(angles[1][9], 0, 1, 0) * rotate(angles[2][9], 0, 0, 1);
+	Rotatation[5] = rotate(angles[1][9], 0, 1, 0);
+	Rotatation[9] = rotate(angles[0][9], 1, 0, 0) * rotate(angles[2][9], 0, 0, 1);
 	Translation[9] = translate(-1,0.8, 0);
-	Models[9] = Models[0] * Translation[9] * Rotatation[9];	
+	Models[9] = Models[0] * Rotatation[5] * Translation[9] * Rotatation[9];
 	//¥ª¤UÁu
 	Translation[10] = translate(-1, 0, 0);
 	Models[10] = Models[9] * Translation[10];
 
 	//left arm
-	Rotatation[12] = rotate(angles[0][12], 1, 0, 0) * rotate(angles[1][12], 0, 1, 0) * rotate(angles[2][12], 0, 0, 1);
+	Rotatation[7] = rotate(angles[1][12], 0, 1, 0);
+	Rotatation[12] = rotate(angles[0][12], 1, 0, 0) * rotate(angles[2][12], 0, 0, 1);
 	Translation[12] = translate(1, 0.8, 0);
-	Models[12] = Models[0] * Translation[12] * Rotatation[12];
+	Models[12] = Models[0] * Rotatation[7] * Translation[12] * Rotatation[12];
 	//¥k¤UÁu
 	Translation[13] = translate(1, 0, 0);
 	Models[13] = Models[12] * Translation[13];
@@ -1297,6 +1662,15 @@ void ActionMenuEvents(int option){
 		break;
 	case 3:
 		action = SUPER_HIGH;
+		break;
+	case 4:
+		action = TORNADO;
+		break;
+	case 5:
+		action = UPPERCUT;
+		break;
+	case 6:
+		action = HEADSPIN;
 		break;
 	}
 }
