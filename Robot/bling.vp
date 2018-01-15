@@ -15,6 +15,7 @@ uniform MatVP{
 	mat4 Projection;
 };
 uniform mat4 Model;
+//varying vec2 surfacePosition; 
 
 // Color to fragment program
 out vec3 vVaryingNormal;
