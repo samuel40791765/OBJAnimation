@@ -57,6 +57,7 @@ void jump_superhigh(int);
 void tornado(int);
 void headspin(int);
 void uppercut(int);
+void cannon(int);
 void initaction();
 bool isFrame;
 
@@ -77,12 +78,14 @@ GLint picture_height, picture_width;
 GLenum picture_format;
 GLuint texture;
 GLuint bg_texture;
+GLuint bullet_texture;
 float expansion_co;
 float delta;
 float num;
 float globaltime;
 int out;
 bool refresh = false;
+bool revealbullet = false;
 
 GLfloat g_vertex_buffer_data[12] = {
 	-1,-1,
@@ -137,5 +140,6 @@ mat4 Models[PARTSNUM];
 #define TORNADO 4
 #define UPPERCUT 5
 #define HEADSPIN 6
+#define CANNON 7
 int mode;
 int action;
