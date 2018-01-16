@@ -116,7 +116,7 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("Normal", 0);
 	glutAddMenuEntry("Bling", 1);
 	glutAddMenuEntry("Toon", 2);
-	glutAddMenuEntry("Pixel", 3);
+	//glutAddMenuEntry("Pixel", 3);
 	glutAddMenuEntry("Gold Android", 4); //shader4
 	glutAddMenuEntry("Wave Android", 5); //shader5
 	glutAddMenuEntry("FireFly Android", 6); //shader6
@@ -132,7 +132,7 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("Gray", 3);
 	glutAddMenuEntry("Quant", 1);
 	glutAddMenuEntry("Colorful", 2);
-	glutAddMenuEntry("p_shader5", 5);
+	//glutAddMenuEntry("p_shader5", 5);
 	glutAddMenuEntry("Chaos BG", 5); //p_shader5
 	glutAddMenuEntry("Water BG", 6); //p_shader6
   glutAddMenuEntry("Abstract", 7);
@@ -1135,7 +1135,7 @@ void init(){
 	num = 0.0;
 
 	texture = loadBMP("Obj/Android_Robot/android_texture.bmp");
-	bg_texture = loadBMP("Obj/Skybox/skybox_back.bmp");
+	bg_texture = loadBMP("Obj/Skybox/bliss.bmp");
 	sword_texture = loadBMP("Obj/sword/linksword_alb_1.bmp");
 	//bg_texture = loadBMP("Obj/Skybox/skybox_back.bmp");
 	bullet_texture = loadBMP("Obj//Bullet/killer_body01a.bmp");
