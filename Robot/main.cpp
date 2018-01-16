@@ -121,6 +121,7 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("shader5", 5);
 	glutAddMenuEntry("shader6", 6);
 	glutAddMenuEntry("Abstract", 7);
+	glutAddMenuEntry("Energy", 8);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);	//與右鍵關聯
 
 	pShaderMenu = glutCreateMenu(pShaderMenuEvents);
@@ -1125,10 +1126,6 @@ void walk(int frame) {
  GLuint M_KaID;
  GLuint M_KdID;
  GLuint M_KsID;
-
- GLuint sM_KaID;
- GLuint sM_KdID;
- GLuint sM_KsID;
  
 void init(){
 	num = 0.0;
@@ -1161,16 +1158,11 @@ void init(){
 	program = LoadShaders(shaders);//讀取shader
 
 	ShaderInfo picture_shaders[] = {
-		{ GL_VERTEX_SHADER, "picture.vp" },//vertex shader
+		{ GL_VERTEX_SHADER, "picture.vp" },//verteGLuint bullet_texture;x shader
 		{ GL_FRAGMENT_SHADER,  "picture.fp" },//fragment shader
 		{ GL_NONE, NULL } };
 	picture_program = LoadShaders(picture_shaders);
 
-	ShaderInfo swordshaders[] = {
-		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
-		{ GL_FRAGMENT_SHADER,  "noise.fp" },//fragment shader
-		{ GL_NONE, NULL } };
-	sword_program = LoadShaders(swordshaders);
 
 	ShaderInfo bling_shaders[] = {
 			{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
@@ -1239,118 +1231,7 @@ void init(){
 	glUniformBlockBinding(program, MatricesIdx,0);
 
 
-
-	glGenVertexArrays(1, &sVAO);
-	glBindVertexArray(sVAO);
-
-	glUseProgram(sword_program);
-	sMatricesIdx = glGetUniformBlockIndex(sword_program, "MatVP");
-	sModelID = glGetUniformLocation(sword_program, "Model");
-	sM_KaID = glGetUniformLocation(sword_program, "Material.Ka");
-	sM_KdID = glGetUniformLocation(sword_program, "Material.Kd");
-	sM_KsID = glGetUniformLocation(sword_program, "Material.Ks");
-	//glUniform1f(glGetUniformLocation(program, "expansion_c"), expansion_co);
-	//or
-	sM_KdID = sM_KaID + 1;
-	sM_KsID = sM_KaID + 2;
-
-	Projection = glm::perspective(80.0f, 4.0f / 3.0f, 0.1f, 100.0f);
-	//glm::mat4 Projection = glm::ortho(-10.0f,10.0f,-10.0f,10.0f,0.0f,100.0f); // In world coordinates
-
-	// Camera matrix
-	View = glm::lookAt(
-		glm::vec3(0, 10, 25), // Camera is at (0,10,25), in World Space
-		glm::vec3(0, 0, 0), // and looks at the origin
-		glm::vec3(0, -1, 0)  // Head is up (set to 0,1,0 to look upside-down)
-		);
-	sword2Buffer();
-	glGenBuffers(1, &sUBO);
-	glBindBuffer(GL_UNIFORM_BUFFER, sUBO);
-	glBufferData(GL_UNIFORM_BUFFER, sizeof(mat4) * 2, NULL, GL_DYNAMIC_DRAW);
-	//get uniform struct size
-	int sUBOsize = 0;
-	glGetActiveUniformBlockiv(sword_program, sMatricesIdx, GL_UNIFORM_BLOCK_DATA_SIZE, &sUBOsize);
-	//bind UBO to its idx
-	glBindBufferRange(GL_UNIFORM_BUFFER, 0, sUBO, 0, sUBOsize);
-	glUniformBlockBinding(sword_program, sMatricesIdx, 0);
-
-
 	glClearColor(0.0,0.0,0.0,1);//black screen
-}
-
-void sword2Buffer() {
-	std::vector<vec3> vertices;
-	std::vector<vec2> uvs;
-	std::vector<vec3> normals; // Won't be used at the moment.
-	std::vector<unsigned int> materialIndices;
-
-	bool res = loadOBJ("Obj/sword/mastersword.obj", vertices, uvs, normals, swordfaces, swordmtls);
-	if (!res) printf("load failed\n");
-
-	//glUseProgram(program);
-
-	glGenBuffers(1, &sVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, sVBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(vec3), &vertices[0], GL_STATIC_DRAW);
-	sword_vertices_size = vertices.size();
-
-	//(buffer type,data起始位置,data size,data first ptr)
-	//vertices_size[i] = glm_model->numtriangles;
-
-	//printf("vertices:%d\n",vertices_size[);
-
-	glGenBuffers(1, &suVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, suVBO);
-	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(vec2), &uvs[0], GL_STATIC_DRAW);
-	sword_uvs_size = uvs.size();
-
-	glGenBuffers(1, &snVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, snVBO);
-	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), &normals[0], GL_STATIC_DRAW);
-	sword_normals_size = normals.size();
-
-	GLuint offset[3] = { 0,0,0 };
-
-	//generate vbo
-	glGenBuffers(1, &sVBO);
-	glGenBuffers(1, &suVBO);
-	glGenBuffers(1, &snVBO);
-	//bind vbo ,第一次bind也同等於 create vbo 
-	glBindBuffer(GL_ARRAY_BUFFER, sVBO);//VBO的target是GL_ARRAY_BUFFER
-	glBufferData(GL_ARRAY_BUFFER, sword_vertices_size*sizeof(vec3), NULL, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ARRAY_BUFFER, suVBO);//VBO的target是GL_ARRAY_BUFFER
-	glBufferData(GL_ARRAY_BUFFER, sword_uvs_size*sizeof(vec2), NULL, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ARRAY_BUFFER, snVBO);//VBO的target是GL_ARRAY_BUFFER
-	glBufferData(GL_ARRAY_BUFFER, sword_normals_size * sizeof(vec3), NULL, GL_STATIC_DRAW);
-
-
-	glBindBuffer(GL_COPY_WRITE_BUFFER, sVBO);
-	glBindBuffer(GL_COPY_READ_BUFFER, sVBO);
-	glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, offset[0], sword_vertices_size*sizeof(vec3));
-	offset[0] += sword_vertices_size*sizeof(vec3);
-	glInvalidateBufferData(sVBO);//free vbo
-	glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
-
-	glBindBuffer(GL_COPY_WRITE_BUFFER, suVBO);
-	glBindBuffer(GL_COPY_READ_BUFFER, suVBO);
-	glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, offset[1], sword_uvs_size*sizeof(vec2));
-	offset[1] += sword_uvs_size*sizeof(vec2);
-	glInvalidateBufferData(suVBO);//free vbo
-	glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
-
-	glBindBuffer(GL_COPY_WRITE_BUFFER, snVBO);
-	glBindBuffer(GL_COPY_READ_BUFFER, snVBO);
-	glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, offset[2], sword_normals_size*sizeof(vec3));
-	offset[2] += sword_normals_size * sizeof(vec3);
-	glInvalidateBufferData(snVBO);//free vbo
-	glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
-
-	//glBindTexture(GL_TEXTURE_2D, textureFloor);
-	//LoadBMPTexture("Stormtrooper_D.bmp", GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT);
-
-	glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
 }
 
 void reloadshader() 
@@ -1409,9 +1290,13 @@ void reloadshader()
 
 	ShaderInfo abstract_shaders[] = {
 		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
-		{ GL_FRAGMENT_SHADER,  "abstract.fp" },//fragment shader
+		{ GL_FRAGMENT_SHADER,  "robotabstract.fp" },//fragment shader
 		{ GL_NONE, NULL } };
 
+	ShaderInfo noise_shaders[] = {
+		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "noise.fp" },//fragment shader
+		{ GL_NONE, NULL } };
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
@@ -1453,6 +1338,9 @@ void reloadshader()
 		break;
 	case 7:
 		program = LoadShaders(abstract_shaders);
+		break;
+	case 8:
+		program = LoadShaders(noise_shaders);
 		break;
 	}
 
@@ -1601,7 +1489,7 @@ void display(){
 
 
 	GLuint offset[3] = {0,0,0};//offset for vertices , uvs , normals
-	for(int i = 0;i < 17 ;i++){
+	for(int i = 0;i < PARTSNUM ;i++){
 		if (i < 14)
 			glBindTexture(GL_TEXTURE_2D, texture);
 		else if (i == 15 || i == 16)
@@ -1682,74 +1570,6 @@ void display(){
 	glDrawArrays(GL_POINTS, 4, sizeof(g_vertex_buffer_data) / 8);
 	//glDisableVertexAttribArray(0);*/
 	
-
-	glBindVertexArray(sVAO);
-	glUseProgram(sword_program);//uniform參數數值前必須先use shader
-
-						  //glUniform1f(glGetUniformLocation(program, "iGlobalTime"), i);
-	//update data to UBO for MVP
-	glBindBuffer(GL_UNIFORM_BUFFER, sUBO);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(mat4), &View);
-	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(mat4), sizeof(mat4), &Projection);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-	glUniform1f(glGetUniformLocation(sword_program, "num"), i);
-	glUniform1f(glGetUniformLocation(sword_program, "time"), a);
-
-
-		glUniformMatrix4fv(sModelID, 1, GL_FALSE, &sword[0][0]);
-
-		glBindBuffer(GL_ARRAY_BUFFER, sVBO);
-		// 1rst attribute buffer : vertices
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0,				//location
-			3,				//vec3
-			GL_FLOAT,			//type
-			GL_FALSE,			//not normalized
-			0,				//strip
-			(void*)offset[0]);//buffer offset
-							  //(location,vec3,type,固定點,連續點的偏移量,buffer point)
-		offset[0] += sword_vertices_size * sizeof(vec3);
-
-		// 2nd attribute buffer : UVs
-		glEnableVertexAttribArray(1);//location 1 :vec2 UV
-		glBindBuffer(GL_ARRAY_BUFFER, suVBO);
-		glVertexAttribPointer(1,
-			2,
-			GL_FLOAT,
-			GL_FALSE,
-			0,
-			(void*)offset[1]);
-		//(location,vec2,type,固定點,連續點的偏移量,point)
-		offset[1] += sword_uvs_size * sizeof(vec2);
-
-		// 3rd attribute buffer : normals
-		glEnableVertexAttribArray(2);//location 2 :vec3 Normal
-		glBindBuffer(GL_ARRAY_BUFFER, snVBO);
-		glVertexAttribPointer(2,
-			3,
-			GL_FLOAT,
-			GL_FALSE,
-			0,
-			(void*)offset[2]);
-		//(location,vec3,type,固定點,連續點的偏移量,point)
-		offset[2] += sword_normals_size * sizeof(vec3);
-
-		int vertexIDoffset = 0;//glVertexID's offset 
-		string mtlname;//material name
-		vec3 Ks = vec3(1, 1, 1);//because .mtl excluding specular , so give it here.
-		for (int j = 0; j <swordmtls.size(); j++) {//
-			mtlname = swordmtls[j];
-			//find the material diffuse color in map:KDs by material name.
-			glUniform3fv(sM_KdID, 1, &KDs[mtlname][0]);
-			glUniform3fv(sM_KsID, 1, &Ks[0]);
-			//          (primitive   , glVertexID base , vertex count    )
-				glDrawArrays(GL_TRIANGLES, vertexIDoffset, swordfaces[j + 1] * 3);
-			//we draw triangles by giving the glVertexID base and vertex count is face count*3
-			vertexIDoffset += swordfaces[j + 1] * 3;//glVertexID's base offset is face count*3
-		}//end for loop for draw one part of the robot	
-
-	
-
 	glFlush();//強制執行上次的OpenGL commands
 	glutSwapBuffers();//調換前台和後台buffer ,當後臺buffer畫完和前台buffer交換使我們看見它
 }
@@ -1762,7 +1582,7 @@ void Obj2Buffer(){
 	std::string texture;
 	loadMTL("Obj/Android_Robot/body.mtl",Kds,Kas,Kss,Materials,texture);
 	loadMTL("Obj/Bullet/killer_body01a.mtl", Kds, Kas, Kss, Materials, texture);
-	//loadMTL("Obj/sword/mastersword.mtl", Kds, Kas, Kss, Materials, texture);
+	loadMTL("Obj/sword/mastersword.mtl", Kds, Kas, Kss, Materials, texture);
 	//printf("%d\n",texture);
 	for(int i = 0;i<Materials.size();i++){
 		printf("%d\n", i);
@@ -1797,7 +1617,7 @@ void Obj2Buffer(){
 	
 	load2Buffer("Obj/Bullet/killer_body01a.obj", 15);
 	load2Buffer("Obj/Bullet/killer_body01a.obj", 16);
-	//load2Buffer("Obj/sword/mastersword.obj", 17);
+	load2Buffer("Obj/sword/mastersword.obj", 17);
 	/*load2Buffer("Obj/Stormtrooper2/again/body.obj",0);
 
 	load2Buffer("Obj/Stormtrooper2/again/head.obj",1);
@@ -1823,6 +1643,55 @@ void Obj2Buffer(){
 	//load2Buffer("Obj/urightleg.obj",15);	
 	//load2Buffer("Obj/drightleg.obj",16);	
 	//load2Buffer("Obj/rightfoot.obj",17);
+	
+	GLuint totalSize[3] = {0,0,0};
+	GLuint offset[3] = {0,0,0};
+	for(int i = 0;i < PARTSNUM ;i++){
+		totalSize[0] += vertices_size[i]*sizeof(vec3);
+		totalSize[1] += uvs_size[i] * sizeof(vec2);
+		totalSize[2] += normals_size[i] * sizeof(vec3);
+	}
+	//generate vbo
+	glGenBuffers(1,&VBO);
+	glGenBuffers(1,&uVBO);
+	glGenBuffers(1,&nVBO);
+	//bind vbo ,第一次bind也同等於 create vbo 
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);//VBO的target是GL_ARRAY_BUFFER
+	glBufferData(GL_ARRAY_BUFFER,totalSize[0],NULL,GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, uVBO);//VBO的target是GL_ARRAY_BUFFER
+	glBufferData(GL_ARRAY_BUFFER,totalSize[1],NULL,GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, nVBO);//VBO的target是GL_ARRAY_BUFFER
+	glBufferData(GL_ARRAY_BUFFER,totalSize[2],NULL,GL_STATIC_DRAW);
+	
+	
+	for(int i = 0;i < PARTSNUM ;i++){
+		glBindBuffer(GL_COPY_WRITE_BUFFER,VBO);
+		glBindBuffer(GL_COPY_READ_BUFFER, VBOs[i]);
+		glCopyBufferSubData(GL_COPY_READ_BUFFER,GL_COPY_WRITE_BUFFER,0,offset[0],vertices_size[i]*sizeof(vec3));
+		offset[0] += vertices_size[i]*sizeof(vec3);
+		glInvalidateBufferData(VBOs[i]);//free vbo
+		glBindBuffer(GL_COPY_WRITE_BUFFER,0);
+
+		glBindBuffer(GL_COPY_WRITE_BUFFER,uVBO);
+		glBindBuffer(GL_COPY_READ_BUFFER, uVBOs[i]);
+		glCopyBufferSubData(GL_COPY_READ_BUFFER,GL_COPY_WRITE_BUFFER,0,offset[1],uvs_size[i]*sizeof(vec2));
+		offset[1] += uvs_size[i]*sizeof(vec2);
+		glInvalidateBufferData(uVBOs[i]);//free vbo
+		glBindBuffer(GL_COPY_WRITE_BUFFER,0);
+
+		glBindBuffer(GL_COPY_WRITE_BUFFER,nVBO);
+		glBindBuffer(GL_COPY_READ_BUFFER, nVBOs[i]);
+		glCopyBufferSubData(GL_COPY_READ_BUFFER,GL_COPY_WRITE_BUFFER,0,offset[2],normals_size[i]*sizeof(vec3));
+		offset[2] += normals_size[i] * sizeof(vec3);
+		glInvalidateBufferData(uVBOs[i]);//free vbo
+		glBindBuffer(GL_COPY_WRITE_BUFFER,0);
+
+		//glBindTexture(GL_TEXTURE_2D, textureFloor);
+		//LoadBMPTexture("Stormtrooper_D.bmp", GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_REPEAT);
+	}
+	glBindBuffer(GL_COPY_WRITE_BUFFER,0);
 
 
 }
@@ -1836,7 +1705,6 @@ void updateModels(){
 		Translation[i] = mat4(1.0f);
 		Scale[i] = mat4(1.0f);
 	}
-	sword = mat4(1.0f);
 	float r, pitch, yaw, roll;
 	float alpha, beta = 0, gamma;
 
@@ -1851,7 +1719,7 @@ void updateModels(){
 	//Rotatation[17] = rotate(90, 1, 0, 0);
 
 	Translation[17] = translate(2, 0, 2);
-	sword = Models[0] * Translation[17] * Rotatation[17] * Scale[17];
+	Models[17] = Models[0] * Translation[17] * Rotatation[17] * Scale[17];
 
 	//============================================================
 	//ÀY==========================================================

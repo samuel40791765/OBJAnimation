@@ -189,7 +189,7 @@ void main(void)
 	}
 
 	vFragColor = col;
-	//vFragColor += textureColor;
+	vFragColor += textureColor;
 }
     
     
