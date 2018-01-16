@@ -1,10 +1,11 @@
-﻿#include "main.h"
+#include "main.h"
 //#include <GLTools.h>
 //#include "targa.cpp"
 
 //vec3 camera = vec3(0,0,0);
 vec3 camera = vec3(0, 0, 20);
-
+ 
+float a = 0;
 
 //vector<unsigned char *> picture;
 
@@ -116,12 +117,18 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("Bling", 1);
 	glutAddMenuEntry("Toon", 2);
 	glutAddMenuEntry("Pixel", 3);
+	glutAddMenuEntry("shader4", 4);
+	glutAddMenuEntry("shader5", 5);
+	glutAddMenuEntry("shader6", 6);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);	//與右鍵關聯
 
 	pShaderMenu = glutCreateMenu(pShaderMenuEvents);
 	glutAddMenuEntry("Normal", 0);
-	glutAddMenuEntry("Gray", 1);
+	glutAddMenuEntry("AfterNoon", 4);
+	glutAddMenuEntry("Gray", 3);
+	glutAddMenuEntry("Quant", 1);
 	glutAddMenuEntry("Colorful", 2);
+	glutAddMenuEntry("p_shader5", 5);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);	//與右鍵關聯
 
 	ModeMenu = glutCreateMenu(ModeMenuEvents);//建立右鍵菜單
@@ -1121,8 +1128,8 @@ void init(){
 	num = 0.0;
 
 	texture = loadBMP("Obj/Android_Robot/android_texture.bmp");
+	bg_texture = loadBMP("Obj/Skybox/skybox_back.bmp");
 	bullet_texture = loadBMP("Obj//Bullet/killer_body01a.bmp");
-	bg_texture = loadBMP("Obj/Stormtrooper2/M101_hires_STScI-PRC2006-10a.bmp");
 	//Obj/Android_Robot/android_texture.bmp
 	
 	//picture.push_back(vtarga::load_targa("Obj/Stormtrooper2/Stormtrooper_D.tga", picture_format, picture_width, picture_height));
@@ -1255,6 +1262,22 @@ void reloadshader()
 		{ GL_FRAGMENT_SHADER,  "picture2.fp" },//fragment shader
 		{ GL_NONE, NULL } };
 
+	ShaderInfo shader4[] = {
+		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "shader4.fp" },//fragment shader
+		{ GL_NONE, NULL } };
+
+	ShaderInfo shader5[] = {
+		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "shader5.fp" },//fragment shader
+		{ GL_NONE, NULL } };
+
+	ShaderInfo shader6[] = {
+		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "shader6.fp" },//fragment shader
+		{ GL_NONE, NULL } };
+	
+
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
@@ -1277,6 +1300,21 @@ void reloadshader()
 	case 3:
 
 		program = LoadShaders(pixel_shaders);//Åª¨úshader
+
+		break;
+	case 4:
+
+		program = LoadShaders(shader4);//Åª¨úshader
+
+		break;
+	case 5:
+
+		program = LoadShaders(shader5);//Åª¨úshader
+
+		break;
+	case 6:
+
+		program = LoadShaders(shader6);//Åª¨úshader
 
 		break;
 	}
@@ -1319,6 +1357,21 @@ void reloadpshader()
 		{ GL_FRAGMENT_SHADER,  "picture2.fp" },//fragment shader
 		{ GL_NONE, NULL } };
 
+	ShaderInfo picture_shaders_Gray[] = {
+		{ GL_VERTEX_SHADER, "picture.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "pictureGray.fp" },//fragment shader
+		{ GL_NONE, NULL } };
+
+	ShaderInfo picture_shaders_Afternoon[] = {
+		{ GL_VERTEX_SHADER, "picture.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "pictureAfternoon.fp" },//fragment shader
+		{ GL_NONE, NULL } };
+
+	ShaderInfo picture_shaders5[] = {
+		{ GL_VERTEX_SHADER, "picture.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "picture_shader5.fp" },//fragment shader
+		{ GL_NONE, NULL } };
+
 	switch (oNo) {
 	case 0:
 
@@ -1333,6 +1386,21 @@ void reloadpshader()
 	case 2:
 
 		picture_program = LoadShaders(picture_shaders2);//Åª¨úshader
+
+		break;
+	case 3:
+
+		picture_program = LoadShaders(picture_shaders_Gray);
+
+		break;
+	case 4:
+
+		picture_program = LoadShaders(picture_shaders_Afternoon);
+
+		break;
+	case 5:
+
+		picture_program = LoadShaders(picture_shaders5);
 
 		break;
 	}
@@ -1353,13 +1421,13 @@ void display(){
 		delta = 0.5;
 	}
 	expansion_co += delta;
-
+	a += 0.2;
 	//glUniform1f(glGetUniformLocation(try_program, "iGlobalTime"), globaltime);
 	//glUniform3f(glGetUniformLocation(try_program, "iResolution"), 800, 600, 0);
 	//glDrawArrays(GL_POINTS, 0, sizeof(g_vertex_buffer_data) / 8);
-
 	glUseProgram(picture_program);//uniform參數數值前必須先use shader
 	glUniform1f(glGetUniformLocation(picture_program, "num"), num);
+	glUniform1f(glGetUniformLocation(picture_program, "time"), a);
 	glBindTexture(GL_TEXTURE_2D, bg_texture);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glClear(GL_DEPTH_BUFFER_BIT);
@@ -1383,8 +1451,8 @@ void display(){
 	glBufferSubData(GL_UNIFORM_BUFFER,0,sizeof(mat4),&View);
 	glBufferSubData(GL_UNIFORM_BUFFER,sizeof(mat4),sizeof(mat4),&Projection);
 	glBindBuffer(GL_UNIFORM_BUFFER,0);
-
 	glUniform1f(glGetUniformLocation(program, "num"), i);
+	glUniform1f(glGetUniformLocation(program, "time"), a);
 
 
 	GLuint offset[3] = {0,0,0};//offset for vertices , uvs , normals
@@ -1827,6 +1895,15 @@ void ShaderMenuEvents(int option){
 	case 3:
 
 		break;
+	case 4:
+
+		break;
+	case 5:
+
+		break;
+	case 6:
+
+		break;
 	}
 }
 
@@ -1867,6 +1944,16 @@ void pShaderMenuEvents(int option) {
 
 		break;
 	case 2:
+
+		break;
+
+	case 3:
+
+		break;
+	case 4:
+
+		break;
+	case 5:
 
 		break;
 	}

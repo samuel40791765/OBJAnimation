@@ -19,13 +19,14 @@ void main()
     float dy = 10.*(1./512.);
     vec2 XY = vec2(dx*(tc.x/dx), dy*floor(tc.y/dy));
     temp_color = texture(ourTexture, tc).bgra;
+	color = vec4(temp_color.b, temp_color.g, temp_color.r, 1.0);
 
     //float blur = 5.0;
 
-    float r = floor(temp_color.r * 3.0) / 3.0;
+    /*float r = floor(temp_color.r * 3.0) / 3.0;
     float g = floor(temp_color.g * 3.0) / 3.0;
     float b = floor(temp_color.b * 3.0) / 3.0;
-    float gray = r * 0.2126 + g * 0.7152 + b * 0.0722;
+    float gray = r * 0.2126 + g * 0.7152 + b * 0.0722;*/
     /*sum += texture(ourTexture, vec2(tc.x - 4.0*blur, tc.y - 4.0*blur)) * 0.0162162162;
     sum += texture(ourTexture, vec2(tc.x - 3.0*blur, tc.y - 3.0*blur)) * 0.0540540541;
     sum += texture(ourTexture, vec2(tc.x - 2.0*blur, tc.y - 2.0*blur)) * 0.1216216216;
@@ -39,7 +40,8 @@ void main()
     sum += texture(ourTexture, vec2(tc.x + 4.0*blur, tc.y + 4.0*blur)) * 0.0162162162;*/
 
       
-   	color = texture(ourTexture, tc).bgra;
+   	//color = texture(ourTexture, tc).bgra;
+	
    	//color.r = gray;
     //color.g = gray;
     //color.b = gray;
