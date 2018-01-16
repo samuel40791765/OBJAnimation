@@ -121,6 +121,8 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("Wave Android", 5); //shader5
 	glutAddMenuEntry("FireFly Android", 6); //shader6
 	glutAddMenuEntry("Circle Android", 7); //shader7
+  glutAddMenuEntry("Abstract", 8);
+	glutAddMenuEntry("Energy", 9);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);	//與右鍵關聯
 
 	pShaderMenu = glutCreateMenu(pShaderMenuEvents);
@@ -129,8 +131,10 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("Gray", 3);
 	glutAddMenuEntry("Quant", 1);
 	glutAddMenuEntry("Colorful", 2);
+	glutAddMenuEntry("p_shader5", 5);
 	glutAddMenuEntry("Chaos BG", 5); //p_shader5
 	glutAddMenuEntry("Water BG", 6); //p_shader6
+  glutAddMenuEntry("Abstract", 7);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);	//與右鍵關聯
 
 	ModeMenu = glutCreateMenu(ModeMenuEvents);//建立右鍵菜單
@@ -1130,7 +1134,9 @@ void init(){
 	num = 0.0;
 
 	texture = loadBMP("Obj/Android_Robot/android_texture.bmp");
-	bg_texture = loadBMP("Obj/Skybox/skybox_back.bmp");
+	bg_texture = loadBMP("Obj/Stormtrooper2/M101_hires_STScI-PRC2006-10a.bmp");
+	sword_texture = loadBMP("Obj/sword/linksword_alb_1.bmp");
+	//bg_texture = loadBMP("Obj/Skybox/skybox_back.bmp");
 	bullet_texture = loadBMP("Obj//Bullet/killer_body01a.bmp");
 	//Obj/Android_Robot/android_texture.bmp
 	
@@ -1155,10 +1161,11 @@ void init(){
 	program = LoadShaders(shaders);//讀取shader
 
 	ShaderInfo picture_shaders[] = {
-		{ GL_VERTEX_SHADER, "picture.vp" },//vertex shader
+		{ GL_VERTEX_SHADER, "picture.vp" },//verteGLuint bullet_texture;x shader
 		{ GL_FRAGMENT_SHADER,  "picture.fp" },//fragment shader
 		{ GL_NONE, NULL } };
 	picture_program = LoadShaders(picture_shaders);
+
 
 	ShaderInfo bling_shaders[] = {
 			{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
@@ -1185,6 +1192,11 @@ void init(){
 		{ GL_FRAGMENT_SHADER,  "picture2.fp" },//fragment shader
 		{ GL_NONE, NULL } };
 	
+	ShaderInfo abstract_shaders[] = {
+		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "abstract.fp" },//fragment shader
+		{ GL_NONE, NULL } };
+
 	glUseProgram(program);//uniform參數數值前必須先use shader
 	
 	MatricesIdx = glGetUniformBlockIndex(program,"MatVP");
@@ -1278,13 +1290,19 @@ void reloadshader()
 		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
 		{ GL_FRAGMENT_SHADER,  "shader6.fp" },//fragment shader
 		{ GL_NONE, NULL } };
-
 	ShaderInfo shader7[] = {
 		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
 		{ GL_FRAGMENT_SHADER,  "shader7.fp" },//fragment shader
 		{ GL_NONE, NULL } };
-	
+	ShaderInfo abstract_shaders[] = {
+		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "robotabstract.fp" },//fragment shader
+		{ GL_NONE, NULL } };
 
+	ShaderInfo noise_shaders[] = {
+		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "noise.fp" },//fragment shader
+		{ GL_NONE, NULL } };
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
@@ -1329,6 +1347,12 @@ void reloadshader()
 		program = LoadShaders(shader7);//Åª¨úshader
 
 		break;
+  case 8:
+    program = LoadShaders(abstract_shaders);
+		break;
+	case 9:
+		program = LoadShaders(noise_shaders);
+     break;
 	}
 
 	glUseProgram(program);//uniform°Ñ¼Æ¼Æ­È«e¥²¶·¥ýuse shader
@@ -1383,6 +1407,10 @@ void reloadpshader()
 		{ GL_VERTEX_SHADER, "picture.vp" },//vertex shader
 		{ GL_FRAGMENT_SHADER,  "picture_shader5.fp" },//fragment shader
 		{ GL_NONE, NULL } };
+	ShaderInfo abstract_shaders[] = {
+		{ GL_VERTEX_SHADER, "picture.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "abstract.fp" },//fragment shader
+		{ GL_NONE, NULL } };
 
 	ShaderInfo picture_shaders6[] = {
 		{ GL_VERTEX_SHADER, "picture.vp" },//vertex shader
@@ -1420,10 +1448,12 @@ void reloadpshader()
 
 		break;
 	case 6:
-
 		picture_program = LoadShaders(picture_shaders6);
 
 		break;
+    case 7:
+      picture_program = LoadShaders(abstract_shaders);
+      break;
 	}
 }
 
@@ -1483,11 +1513,12 @@ void display(){
 
 	GLuint offset[3] = {0,0,0};//offset for vertices , uvs , normals
 	for(int i = 0;i < PARTSNUM ;i++){
-		if (i < 14) 
+		if (i < 14)
 			glBindTexture(GL_TEXTURE_2D, texture);
-		else
+		else if (i == 15 || i == 16)
 			glBindTexture(GL_TEXTURE_2D, bullet_texture);
-
+		else
+			glBindTexture(GL_TEXTURE_2D, sword_texture);
 		glUniformMatrix4fv(ModelID,1,GL_FALSE,&Models[i][0][0]);
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -1535,7 +1566,7 @@ void display(){
 			glUniform3fv(M_KdID,1,&KDs[mtlname][0]);
 			glUniform3fv(M_KsID,1,&Ks[0]);
 			//          (primitive   , glVertexID base , vertex count    )
-			if (revealbullet || i < 14)
+			if (revealbullet || i < 14 || i>16)
 				glDrawArrays(GL_TRIANGLES, vertexIDoffset, faces[i][j + 1] * 3);
 			//we draw triangles by giving the glVertexID base and vertex count is face count*3
 			vertexIDoffset += faces[i][j+1]*3;//glVertexID's base offset is face count*3
@@ -1574,6 +1605,7 @@ void Obj2Buffer(){
 	std::string texture;
 	loadMTL("Obj/Android_Robot/body.mtl",Kds,Kas,Kss,Materials,texture);
 	loadMTL("Obj/Bullet/killer_body01a.mtl", Kds, Kas, Kss, Materials, texture);
+	loadMTL("Obj/sword/mastersword.mtl", Kds, Kas, Kss, Materials, texture);
 	//printf("%d\n",texture);
 	for(int i = 0;i<Materials.size();i++){
 		printf("%d\n", i);
@@ -1591,7 +1623,7 @@ void Obj2Buffer(){
 	//load2Buffer("Obj/Stormtrooper2/again/left_thigh.obj",3);
 	//load2Buffer("Obj/Stormtrooper2/again/left_leg.obj",4);
 	load2Buffer("Obj/Android_Robot/leftleg.obj", 3);
-	//load2Buffer("Obj/Stormtrooper2/again/left_foot.obj",5);
+	
 
 	//load2Buffer("Obj/Stormtrooper2/again/right_thigh.obj",6);
 	//load2Buffer("Obj/Stormtrooper2/again/right_leg.obj",7);
@@ -1608,7 +1640,7 @@ void Obj2Buffer(){
 	
 	load2Buffer("Obj/Bullet/killer_body01a.obj", 15);
 	load2Buffer("Obj/Bullet/killer_body01a.obj", 16);
-
+	load2Buffer("Obj/sword/mastersword.obj", 17);
 	/*load2Buffer("Obj/Stormtrooper2/again/body.obj",0);
 
 	load2Buffer("Obj/Stormtrooper2/again/head.obj",1);
@@ -1704,6 +1736,13 @@ void updateModels(){
 	Scale[0] = scale(5, 5, 5);
 	Translation[0] = translate(0, position, 0);
 	Models[0] = Translation[0] * Scale[0] * Rotatation[0];
+
+	//sword
+	Scale[17] = scale(0.3, 0.3, 0.3);
+	//Rotatation[17] = rotate(90, 1, 0, 0);
+
+	Translation[17] = translate(2, 0, 2);
+	Models[17] = Models[0] * Translation[17] * Rotatation[17] * Scale[17];
 
 	//============================================================
 	//ÀY==========================================================
@@ -1933,6 +1972,10 @@ void ShaderMenuEvents(int option){
 	case 7:
 
 		break;
+    case 8:
+      break;
+    case 9:
+      break;
 	}
 }
 
@@ -1984,6 +2027,10 @@ void pShaderMenuEvents(int option) {
 		break;
 	case 5:
 
+		break;
+	case 6:
+		break;
+  case 7:
 		break;
 	}
 }

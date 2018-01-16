@@ -50,4 +50,3 @@ void main(void)
     //vFragColor.b = (floor(int(vFragColor.b * 4.0)) / 4.0);
 }
 	
-    

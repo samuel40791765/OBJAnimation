@@ -79,6 +79,7 @@ GLenum picture_format;
 GLuint texture;
 GLuint bg_texture;
 GLuint bullet_texture;
+GLuint sword_texture;
 float expansion_co;
 float delta;
 float num;
