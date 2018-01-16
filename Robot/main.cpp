@@ -487,8 +487,8 @@ void cannon(int frame) {
 	case 24:
 	
 	case 26:
-		offsets[2][10] -= 0.02;
-		offsets[2][13] += 0.02;
+		offsets[2][10] += 0.05;
+		offsets[2][13] += 0.05;
 		angles[1][10] += 22.5;
 		angles[1][13] -= 22.5;
 
@@ -523,8 +523,8 @@ void cannon(int frame) {
 	case 45:
 	case 46:
 	case 47:
-		offsets[2][10] += 0.02;
-		offsets[2][13] -= 0.02;
+		offsets[2][10] -= 0.05;
+		offsets[2][13] -= 0.05;
 		angles[1][10] -= 22.5;
 		angles[1][13] += 22.5;
 		break;
@@ -1717,7 +1717,7 @@ void updateModels(){
 
 	Scale[15] = scale(0.1, 0.1, 0.1);
 	Rotatation[15] = rotate(angles[1][15] + 90, 0, 1, 0) * rotate(-90, 0, 0, 1);
-	Translation[15] = translate(offsets[0][15], 0.45, offsets[2][15]);
+	Translation[15] = translate(offsets[0][15], 0.45, offsets[2][15] + 0.5);
 	Models[15] = Models[10] * Translation[15] * Scale[15] * Rotatation[15];
 
 	//left arm
@@ -1732,7 +1732,7 @@ void updateModels(){
 	Scale[16] = scale(0.1, 0.1, 0.1);
 
 	Rotatation[16] = rotate(angles[1][16] - 90, 0, 1, 0) * rotate(90, 0, 0, 1);
-	Translation[16] = translate(offsets[0][16], 0.45, offsets[2][16] + 0.2);
+	Translation[16] = translate(offsets[0][16], 0.45, offsets[2][16] + 0.5);
 	Models[16] = Models[13] * Translation[16] * Scale[16] * Rotatation[16];
 
 }
