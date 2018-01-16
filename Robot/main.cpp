@@ -116,7 +116,7 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("Normal", 0);
 	glutAddMenuEntry("Bling", 1);
 	glutAddMenuEntry("Toon", 2);
-	//glutAddMenuEntry("Pixel", 3);
+	glutAddMenuEntry("Pixel", 3);
 	glutAddMenuEntry("Gold Android", 4); //shader4
 	glutAddMenuEntry("Wave Android", 5); //shader5
 	glutAddMenuEntry("FireFly Android", 6); //shader6
