@@ -1,4 +1,4 @@
-﻿#include "main.h"
+#include "main.h"
 //#include <GLTools.h>
 //#include "targa.cpp"
 
@@ -104,7 +104,11 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("idle",0);
 	glutAddMenuEntry("walk",1);
 	glutAddMenuEntry("jump", 2);
-	glutAddMenuEntry("happy", 3);
+	glutAddMenuEntry("jump higher", 3);
+	glutAddMenuEntry("tornado", 4);
+	glutAddMenuEntry("uppercut", 5);
+	glutAddMenuEntry("headspin", 6);
+	glutAddMenuEntry("cannon", 7);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);	//與右鍵關聯
 
 	ShaderMenu = glutCreateMenu(ShaderMenuEvents);//建立右鍵菜單
@@ -184,13 +188,42 @@ void idle(int dummy){
 		out = dummy + 1;
 		//printf("%d	", dummy);
 		//printf("%d	", out);
+		if (out > 37) out = 0;
+	}
+	else if (action == TORNADO) {
+		tornado(dummy);
+		out = dummy + 1;
+		//printf("%d	", dummy);
+		//printf("%d	", out);
 		if (out > 36) out = 0;
 	}
-	glutPostRedisplay();
+	else if (action == UPPERCUT) {
+		uppercut(dummy);
+		out = dummy + 1;
+		//printf("%d	", dummy);
+		//printf("%d	", out);
+		if (out > 37) out = 0;
+	}
+	else if (action == HEADSPIN) {
+		headspin(dummy);
+		out = dummy + 1;
+		//printf("%d	", dummy);
+		//printf("%d	", out);
+		if (out > 36) out = 0;
+	}
+	else if (action == CANNON) {
+		cannon(dummy);
+		out = dummy + 1;
+		//printf("%d	", dummy);
+		//printf("%d	", out);
+		if (out > 68) out = 0;
+	}
 	if (refresh) {
 		refresh = false;
+		initaction();
 		out = 0;
 	}
+	glutPostRedisplay();
 	glutTimerFunc (50, idle, out); 
 }
 
@@ -198,6 +231,466 @@ void standby() {
 	for (int i = 0; i < PARTSNUM; i++) {
 		angles[0][i] = 0.0f;
 	}
+}
+
+void uppercut(int frame) {
+	switch (frame) {
+	case 0:
+		position -= 0.1;
+		angles[0][9] = 2;
+		angles[0][12] = 2;
+		angles[2][9] = 70;
+		angles[2][12] = -70;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 1:
+	case 2:
+		position -= 0.1;
+
+		angles[0][9] = 4;
+		angles[0][12] = 4;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 3:
+	case 4:
+		position -= 0.1;
+
+		angles[0][9] = 6;
+		angles[0][12] = 6;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 5:
+	case 6:
+		position -= 0.1;
+
+
+		angles[0][9] += 8;
+		angles[0][12] += 8;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 7:
+	case 8:
+		position -= 0.1;
+
+		angles[0][9] = 10;
+		angles[0][12] = 10;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 9:
+	case 10:
+		position -= 0.1;
+
+		angles[0][9] = 12;
+		angles[0][12] = 12;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 11:
+	case 12:
+		position -= 0.1;
+
+		angles[0][9] = 14;
+		angles[0][12] = 14;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 13:
+	case 14:
+		position -= 0.1;
+
+		angles[0][9] = 16;
+		angles[0][12] = 16;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 15:
+	case 16:
+		position -= 0.1;
+
+		angles[0][9] = 18;
+		angles[0][12] = 18;
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 17:
+	case 18:
+		position -= 0.1;
+
+		angles[0][9] = 20;
+		angles[0][12] = 20;
+
+		offsets[1][3] += 0.1;
+		offsets[1][6] += 0.1;
+		break;
+	case 19:
+		angles[0][9] -= 10;
+		angles[0][12] -= 20;
+		break;
+	case 20:
+		position += 0.333;
+
+		angles[0][9] -= 10;
+		angles[0][12] -= 45;
+		angles[1][0] -= 30;
+
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
+		break;
+	case 21:
+		angles[1][0] -= 30;
+		angles[0][9] -= 10;
+		angles[0][12] -= 45;
+		break;
+	case 22:
+		position += 0.333;
+		angles[1][0] -= 30;
+		angles[0][12] -= 45;
+
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
+		break;
+	case 23:
+		angles[1][0] -= 30;
+		break;
+	case 24:
+		position += 0.334;
+		angles[1][0] -= 30;
+		angles[0][12] -= 45;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
+		break;
+	case 25:
+		position += 0.9;
+		angles[1][0] -= 30;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
+		break;
+	case 26:
+		position += 1.5;
+		angles[1][0] -= 30;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
+		break;
+	case 27:
+		position += 1.2;
+		angles[1][0] -= 30;
+		offsets[1][3] -= 0.317;
+		offsets[1][6] -= 0.317;
+		break;
+	case 28:
+		position += 1.0;
+		angles[1][0] -= 30;
+
+		break;
+	case 29:
+		position += 0.8;
+		angles[1][0] -= 30;
+		angles[0][12] += 22.5;
+		break;
+	case 30:
+		position += 0.5;
+		angles[1][0] -= 30;
+		angles[0][12] += 22.5;
+		break;
+	case 31:
+		position += 0.2;
+		angles[1][0] -= 30;
+		angles[0][9] += 10;
+		angles[0][12] += 22.5;
+		break;
+	case 32:
+		position -= 0.2;
+
+
+		angles[0][12] += 22.5;
+
+		break;
+	case 33:
+		position -= 0.5;
+
+		angles[0][12] += 22.5;
+		break;
+	case 34:
+		position -= 0.8;
+
+		angles[0][12] += 22.5;
+
+		break;
+	case 35:
+		position -= 1.0;
+		angles[0][12] += 22.5;
+		break;
+	case 36:
+		position -= 1.2;
+		angles[0][12] += 22.5;
+
+		break;
+	case 37:
+		position -= 1.5;
+		printf("%f	", position);
+		break;
+	case 38:
+		break;
+	}
+}
+
+void cannon(int frame) {
+	switch (frame) {
+	case 0:
+		angles[0][9] -= 5;
+		angles[0][12] -= 5;
+		angles[2][9] = 90;
+		angles[2][12] = -90;
+		offsets[0][15] = 0;
+		offsets[0][16] = 0;
+		break;
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+	case 9:
+	case 10:
+	case 11:
+	case 12:
+	case 13:
+	case 14:
+	case 16:
+	case 17:	
+	case 18:
+		angles[0][9] -= 5;
+		angles[0][12] -= 5;
+		break;
+
+	case 25:
+		revealbullet = true;
+	case 19:
+	case 20:
+	case 21:
+	case 22:
+	case 23:
+	case 24:
+	
+	case 26:
+		offsets[2][10] -= 0.02;
+		offsets[2][13] += 0.02;
+		angles[1][10] += 22.5;
+		angles[1][13] -= 22.5;
+
+		
+		//angles[0][12] += 22.5;
+		break;
+	case 27:
+	case 28:
+	case 29:
+	case 30:
+	case 31:
+	case 32:
+	case 33:
+		break;
+	case 34:
+	case 35:
+	case 36:
+	case 37:
+	case 38:
+	case 39:
+		offsets[0][15] += 1;
+		offsets[0][16] -= 1;
+		//angles[0][12] += 22.5;
+
+		break;
+	case 40:
+		revealbullet = false;
+	case 41:
+	case 42:
+	case 43:
+	case 44:
+	case 45:
+	case 46:
+	case 47:
+		offsets[2][10] += 0.02;
+		offsets[2][13] -= 0.02;
+		angles[1][10] -= 22.5;
+		angles[1][13] += 22.5;
+		break;
+
+	
+	case 48:
+	case 49:
+	case 50:
+		break;
+	case 51:
+	case 52:
+	case 53:
+	case 54:
+	case 55:
+	case 56:
+	case 57:
+	case 58:
+	case 59:
+	case 60:
+	case 61:
+	case 62:
+	case 63:
+	case 64:
+	case 65:
+	case 66:
+	case 67:
+	case 68:
+		angles[0][9] += 5;
+		angles[0][12] += 5;
+
+
+		//angles[0][12] += 22.5;
+
+		break;
+	}
+}
+
+void jump(int frame) {
+	switch (frame) {
+	case 0:
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+	case 9:
+	case 10:
+	case 11:
+	case 12:
+	case 13:
+	case 14:
+	case 15:
+	case 16:
+	case 17:
+	case 18:
+		position -= 0.1;
+		offsets[1][3] += 0.05;
+		offsets[1][6] += 0.05;
+		break;
+	case 19:
+	case 20:
+		position += 0.333;
+
+		offsets[1][3] -= 0.15833;
+		offsets[1][6] -= 0.15833;
+		break;
+	case 21:
+	case 22:
+		position += 0.333;
+
+		offsets[1][3] -= 0.15833;
+		offsets[1][6] -= 0.15833;
+		break;
+	case 23:
+	case 24:
+		position += 0.334;
+
+		offsets[1][3] -= 0.15833;
+		offsets[1][6] -= 0.15833;
+		break;
+	case 25:
+	case 26:
+		position += 0.3;
+		break;
+	case 27:
+	case 28:
+		position += 0.2;
+		//offsets[1][3] -= 0.2;
+		//offsets[1][6] -= 0.2;
+		break;
+	case 29:
+	case 30:
+		position += 0.1;
+
+		break;
+	case 31:
+	case 32:
+		position -= 0.1;
+
+		break;
+	case 33:
+	case 34:
+		position -= 0.2;
+		break;
+	case 35:
+	case 36:
+		position -= 0.3;
+
+		break;
+	}
+
+}
+
+void tornado(int frame) {
+	switch (frame) {
+	case 0:
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	case 6:
+	case 7:
+	case 8:
+	case 9:
+	case 10:
+	case 11:
+	case 12:
+	case 13:
+	case 14:
+	case 15:
+	case 16:
+	case 17:
+	case 18:
+	case 19:
+	case 20:
+	case 21:
+	case 22:
+	case 23:
+	case 24:
+	case 25:
+	case 26:
+	case 27:
+	case 28:
+	case 29:
+	case 30:
+	case 31:
+	case 32:
+	case 33:
+	case 34:
+	case 35:
+	case 36:
+		angles[2][9] = 0;
+		angles[2][12] = 0;
+		angles[1][9] += 40;
+		angles[1][12] += 40;
+		if (angles[1][9] >= 360)
+			angles[1][9] = 0;
+		if (angles[1][12] >= 360)
+			angles[1][12] = 0;
+		break;
+	}
+
 }
 
 void jump_superhigh(int frame) {
@@ -338,7 +831,7 @@ void jump_superhigh(int frame) {
 		offsets[1][6] -= 0.317;
 		break;
 	case 25:
-		position += 0.7;
+		position += 0.9;
 
 		angles[0][9] -= 10;
 		angles[0][12] -= 10;
@@ -346,7 +839,7 @@ void jump_superhigh(int frame) {
 		offsets[1][6] -= 0.317;
 		break;
 	case 26:
-		position += 0.6;
+		position += 0.7;
 
 		angles[0][9] -= 10;
 		angles[0][12] -= 10;
@@ -421,13 +914,14 @@ void jump_superhigh(int frame) {
 
 		break;
 	case 37:
-		position -= 0.6;
+		position -= 0.7;
 		printf("%f	", position);
 		break;
 	}
+
 }
 
-void jump(int frame) {
+void headspin(int frame) {
 	switch (frame) {
 	case 0:
 	case 1:
@@ -448,63 +942,32 @@ void jump(int frame) {
 	case 16:
 	case 17:
 	case 18:
-		position -= 0.1;
-		offsets[1][3] += 0.05;
-		offsets[1][6] += 0.05;
-		break;
 	case 19:
 	case 20:
-		position += 0.333;
-
-		offsets[1][3] -= 0.15833;
-		offsets[1][6] -= 0.15833;
-		break;
 	case 21:
 	case 22:
-		position += 0.333;
-
-		offsets[1][3] -= 0.15833;
-		offsets[1][6] -= 0.15833;
-		break;
 	case 23:
 	case 24:
-		position += 0.334;
-
-		offsets[1][3] -= 0.15833;
-		offsets[1][6] -= 0.15833;
-		break;
 	case 25:
 	case 26:
-		position += 0.3;
-		break;
 	case 27:
 	case 28:
-		position += 0.2;
-		//offsets[1][3] -= 0.2;
-		//offsets[1][6] -= 0.2;
-		break;
 	case 29:
 	case 30:
-		position += 0.1;
-
-		break;
 	case 31:
 	case 32:
-		position -= 0.1;
-
-		break;
 	case 33:
 	case 34:
-		position -= 0.2;
-		break;
 	case 35:
 	case 36:
-		position -= 0.3;
-
+		angles[1][1] += 40;
+		if (angles[1][1] >= 360)
+			angles[1][1] = 0;
 		break;
 	}
 
 }
+
 void walk(int frame) {
 	switch (frame) {
 	case 0:
@@ -666,6 +1129,7 @@ void init(){
 
 	texture = loadBMP("Obj/Android_Robot/android_texture.bmp");
 	bg_texture = loadBMP("Obj/Skybox/skybox_back.bmp");
+	bullet_texture = loadBMP("Obj//Bullet/killer_body01a.bmp");
 	//Obj/Android_Robot/android_texture.bmp
 	
 	//picture.push_back(vtarga::load_targa("Obj/Stormtrooper2/Stormtrooper_D.tga", picture_format, picture_width, picture_height));
@@ -973,7 +1437,7 @@ void display(){
 
 	//glUniform1f(glGetUniformLocation(program, "iGlobalTime"), i);
 
-	glBindTexture(GL_TEXTURE_2D, texture);
+	
 	float eyey = DOR(eyeAngley);
 	View       = lookAt(
 		               //vec3(0,10,25),// Camera is at (0,0,20), in World Space
@@ -993,6 +1457,11 @@ void display(){
 
 	GLuint offset[3] = {0,0,0};//offset for vertices , uvs , normals
 	for(int i = 0;i < PARTSNUM ;i++){
+		if (i < 14) 
+			glBindTexture(GL_TEXTURE_2D, texture);
+		else
+			glBindTexture(GL_TEXTURE_2D, bullet_texture);
+
 		glUniformMatrix4fv(ModelID,1,GL_FALSE,&Models[i][0][0]);
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -1040,7 +1509,8 @@ void display(){
 			glUniform3fv(M_KdID,1,&KDs[mtlname][0]);
 			glUniform3fv(M_KsID,1,&Ks[0]);
 			//          (primitive   , glVertexID base , vertex count    )
-			glDrawArrays(GL_TRIANGLES, vertexIDoffset  , faces[i][j+1]*3);
+			if (revealbullet || i < 14)
+				glDrawArrays(GL_TRIANGLES, vertexIDoffset, faces[i][j + 1] * 3);
 			//we draw triangles by giving the glVertexID base and vertex count is face count*3
 			vertexIDoffset += faces[i][j+1]*3;//glVertexID's base offset is face count*3
 		}//end for loop for draw one part of the robot	
@@ -1077,6 +1547,7 @@ void Obj2Buffer(){
 	std::vector<std::string> Materials;//mtl-name
 	std::string texture;
 	loadMTL("Obj/Android_Robot/body.mtl",Kds,Kas,Kss,Materials,texture);
+	loadMTL("Obj/Bullet/killer_body01a.mtl", Kds, Kas, Kss, Materials, texture);
 	//printf("%d\n",texture);
 	for(int i = 0;i<Materials.size();i++){
 		printf("%d\n", i);
@@ -1109,6 +1580,9 @@ void Obj2Buffer(){
 	load2Buffer("Obj/Android_Robot/rightbicep.obj", 9);
 	load2Buffer("Obj/Android_Robot/righthand.obj", 10);
 	
+	load2Buffer("Obj/Bullet/killer_body01a.obj", 15);
+	load2Buffer("Obj/Bullet/killer_body01a.obj", 16);
+
 	/*load2Buffer("Obj/Stormtrooper2/again/body.obj",0);
 
 	load2Buffer("Obj/Stormtrooper2/again/head.obj",1);
@@ -1200,15 +1674,16 @@ void updateModels(){
 	float alpha, beta = 0, gamma;
 
 	//Body
-	//Rotatation[0] = rotate(180, 0, 1, 0) * rotate(180, 0, 0, 1);
+	Rotatation[0] = rotate(angles[1][0], 0, 1, 0) * rotate(angles[2][0], 0, 0, 1);
 	Scale[0] = scale(5, 5, 5);
 	Translation[0] = translate(0, position, 0);
-	Models[0] = Translation[0] * Rotatation[0] * Scale[0];
+	Models[0] = Translation[0] * Scale[0] * Rotatation[0];
 
 	//============================================================
 	//ÀY==========================================================
+	Rotatation[1] = rotate(angles[1][1], 0, 1, 0);
 	Translation[1] = translate(0, 1.2, 0);
-	Models[1] = Models[0] * Translation[1];
+	Models[1] = Models[0] * Translation[1] * Rotatation[1];
 	//============================================================
 	//Áv³¡==========================================================
 	Translation[2] = translate(0.5,0.7,0);
@@ -1231,20 +1706,34 @@ void updateModels(){
 	//=============================================================
 	//¥ª¤â
 	//right arm
-	Rotatation[9] = rotate(angles[0][9], 1, 0, 0) * rotate(angles[1][9], 0, 1, 0) * rotate(angles[2][9], 0, 0, 1);
+	Rotatation[5] = rotate(angles[1][9], 0, 1, 0);
+	Rotatation[9] = rotate(angles[0][9], 1, 0, 0) * rotate(angles[2][9], 0, 0, 1);
 	Translation[9] = translate(-1,0.8, 0);
-	Models[9] = Models[0] * Translation[9] * Rotatation[9];	
+	Models[9] = Models[0] * Rotatation[5] * Translation[9] * Rotatation[9];
 	//¥ª¤UÁu
-	Translation[10] = translate(-1, 0, 0);
-	Models[10] = Models[9] * Translation[10];
+	Rotatation[10] = rotate(angles[1][10], 0, 1, 0);
+	Translation[10] = translate(offsets[0][10], offsets[1][10], offsets[2][10]);
+	Models[10] = Models[9] * Translation[10] * Rotatation[10];
+
+	Scale[15] = scale(0.1, 0.1, 0.1);
+	Rotatation[15] = rotate(angles[1][15] + 90, 0, 1, 0) * rotate(-90, 0, 0, 1);
+	Translation[15] = translate(offsets[0][15], 0.45, offsets[2][15]);
+	Models[15] = Models[10] * Translation[15] * Scale[15] * Rotatation[15];
 
 	//left arm
-	Rotatation[12] = rotate(angles[0][12], 1, 0, 0) * rotate(angles[1][12], 0, 1, 0) * rotate(angles[2][12], 0, 0, 1);
+	Rotatation[7] = rotate(angles[1][12], 0, 1, 0);
+	Rotatation[12] = rotate(angles[0][12], 1, 0, 0) * rotate(angles[2][12], 0, 0, 1);
 	Translation[12] = translate(1, 0.8, 0);
-	Models[12] = Models[0] * Translation[12] * Rotatation[12];
+	Models[12] = Models[0] * Rotatation[7] * Translation[12] * Rotatation[12];
 	//¥k¤UÁu
-	Translation[13] = translate(1, 0, 0);
-	Models[13] = Models[12] * Translation[13];
+	Rotatation[13] = rotate(angles[1][13], 0,1, 0);
+	Translation[13] = translate(offsets[0][13], offsets[1][13], offsets[2][13]);
+	Models[13] = Models[12] * Translation[13] * Rotatation[13];
+	Scale[16] = scale(0.1, 0.1, 0.1);
+
+	Rotatation[16] = rotate(angles[1][16] - 90, 0, 1, 0) * rotate(90, 0, 0, 1);
+	Translation[16] = translate(offsets[0][16], 0.45, offsets[2][16] + 0.2);
+	Models[16] = Models[13] * Translation[16] * Scale[16] * Rotatation[16];
 
 }
 
@@ -1352,7 +1841,7 @@ void Keyboard(unsigned char key, int x, int y){
 }
 void menuEvents(int option){}
 void ActionMenuEvents(int option){
-	initaction();
+	refresh = true;
 	switch(option){
 	case 0:
 		action = IDLE;
@@ -1365,6 +1854,18 @@ void ActionMenuEvents(int option){
 		break;
 	case 3:
 		action = SUPER_HIGH;
+		break;
+	case 4:
+		action = TORNADO;
+		break;
+	case 5:
+		action = UPPERCUT;
+		break;
+	case 6:
+		action = HEADSPIN;
+		break;
+	case 7:
+		action = CANNON;
 		break;
 	}
 }
@@ -1408,9 +1909,7 @@ void ShaderMenuEvents(int option){
 
 void initaction() {
 	
-	for (int i = 0; i < PARTSNUM; i++) {
-		Models[i] = mat4(1.0f);
-	}
+
 	position = -2.0;
 	for (int i = 0; i < PARTSNUM; i++)//初始化角度陣列
 	{
@@ -1429,7 +1928,9 @@ void initaction() {
 	}
 	offsets[1][6] = -0.8;
 	offsets[1][3] = -0.8;
-	refresh = true;
+	offsets[0][10] = -1;
+	offsets[0][13] = 1;
+	
 }
 
 void pShaderMenuEvents(int option) {
