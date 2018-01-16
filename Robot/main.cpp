@@ -1640,7 +1640,7 @@ void Obj2Buffer(){
 	
 	load2Buffer("Obj/Bullet/killer_body01a.obj", 15);
 	load2Buffer("Obj/Bullet/killer_body01a.obj", 16);
-	load2Buffer("Obj/sword/mastersword.obj", 17);
+	//load2Buffer("Obj/sword/mastersword.obj", 17);
 	/*load2Buffer("Obj/Stormtrooper2/again/body.obj",0);
 
 	load2Buffer("Obj/Stormtrooper2/again/head.obj",1);
