@@ -17,7 +17,7 @@ using namespace std;
 using namespace glm;
 
 
-#define PARTSNUM 18
+#define PARTSNUM 20
 #define BODY 0
 #define LEFTSHOUDER 1
 #define ULEFTARM 2
@@ -27,7 +27,6 @@ using namespace glm;
 void updateModels();
 
 void init();
-
 void ChangeSize(int w,int h);
 void display();
 void Keyboard(unsigned char key, int x, int y);
@@ -47,6 +46,7 @@ mat4 rotate(float angle,float x,float y,float z);
 
 void Obj2Buffer();
 void load2Buffer( char* obj,int);
+void sword2Buffer();
 
 void updateObj(int);
 void resetObj();
@@ -71,14 +71,22 @@ GLuint UBO;
 GLuint VBOs[PARTSNUM];
 GLuint uVBOs[PARTSNUM];
 GLuint nVBOs[PARTSNUM];
+
+GLuint sVAO;
+GLuint sVBO;
+GLuint suVBO;
+GLuint snVBO;
+GLuint sUBO;
 GLuint program;
 GLuint picture_program;
+GLuint sword_program;
 GLuint try_program;
 GLint picture_height, picture_width;
 GLenum picture_format;
 GLuint texture;
 GLuint bg_texture;
 GLuint bullet_texture;
+GLuint sword_texture;
 float expansion_co;
 float delta;
 float num;
@@ -110,17 +118,25 @@ float movex,movey;
 int MatricesIdx;
 GLuint ModelID;
 
+int sMatricesIdx;
+GLuint sModelID;
+
 int vertices_size[PARTSNUM];
 int uvs_size[PARTSNUM];
 int normals_size[PARTSNUM];
 int materialCount[PARTSNUM];
 
 
-
+int sword_vertices_size;
+int sword_uvs_size;
+int sword_normals_size;
+int sword_materialCount;
 
 
 std::vector<std::string> mtls[PARTSNUM];//use material
 std::vector<GLuint> faces[PARTSNUM];//face count
+std::vector<GLuint> swordfaces;
+std::vector<std::string> swordmtls;
 map<string,vec3> KDs;//mtl-name&Kd
 map<string,vec3> KSs;//mtl-name&Ks
 
@@ -128,6 +144,7 @@ mat4 Projection ;
 mat4 View;
 mat4 Model;
 mat4 Models[PARTSNUM];
+mat4 sword;
 
 #define leftHand 0
 #define rightHand 1
