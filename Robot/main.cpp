@@ -120,8 +120,9 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("Gold Android", 4); //shader4
 	glutAddMenuEntry("Wave Android", 5); //shader5
 	glutAddMenuEntry("FireFly Android", 6); //shader6
-	glutAddMenuEntry("Circle Android", 7); //shader7
-  glutAddMenuEntry("Abstract", 8);
+	glutAddMenuEntry("Lighting Android", 7); //shader7
+	glutAddMenuEntry("Fire Android", 10);
+	glutAddMenuEntry("Abstract", 8);
 	glutAddMenuEntry("Energy", 9);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);	//與右鍵關聯
 
@@ -1134,7 +1135,7 @@ void init(){
 	num = 0.0;
 
 	texture = loadBMP("Obj/Android_Robot/android_texture.bmp");
-	bg_texture = loadBMP("Obj/Stormtrooper2/M101_hires_STScI-PRC2006-10a.bmp");
+	bg_texture = loadBMP("Obj/Skybox/skybox_back.bmp");
 	sword_texture = loadBMP("Obj/sword/linksword_alb_1.bmp");
 	//bg_texture = loadBMP("Obj/Skybox/skybox_back.bmp");
 	bullet_texture = loadBMP("Obj//Bullet/killer_body01a.bmp");
@@ -1303,6 +1304,11 @@ void reloadshader()
 		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
 		{ GL_FRAGMENT_SHADER,  "noise.fp" },//fragment shader
 		{ GL_NONE, NULL } };
+
+	ShaderInfo fireAndroid_shaders[] = {
+		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "shader8.fp" },//fragment shader
+		{ GL_NONE, NULL } };
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
 
@@ -1353,6 +1359,9 @@ void reloadshader()
 	case 9:
 		program = LoadShaders(noise_shaders);
      break;
+	case 10:
+		program = LoadShaders(fireAndroid_shaders);
+		break;
 	}
 
 	glUseProgram(program);//uniform°Ñ¼Æ¼Æ­È«e¥²¶·¥ýuse shader
@@ -1477,7 +1486,8 @@ void display(){
 	else
 		a += 0.2;
 	
-	std::cout << a << std::endl;
+	//std::cout << a << std::endl;
+
 	//glUniform1f(glGetUniformLocation(try_program, "iGlobalTime"), globaltime);
 	//glUniform3f(glGetUniformLocation(try_program, "iResolution"), 800, 600, 0);
 	//glDrawArrays(GL_POINTS, 0, sizeof(g_vertex_buffer_data) / 8);
@@ -1976,6 +1986,8 @@ void ShaderMenuEvents(int option){
       break;
     case 9:
       break;
+	case 10:
+		break;
 	}
 }
 
