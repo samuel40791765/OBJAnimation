@@ -117,9 +117,10 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("Bling", 1);
 	glutAddMenuEntry("Toon", 2);
 	glutAddMenuEntry("Pixel", 3);
-	glutAddMenuEntry("shader4", 4);
-	glutAddMenuEntry("shader5", 5);
-	glutAddMenuEntry("shader6", 6);
+	glutAddMenuEntry("Gold Android", 4); //shader4
+	glutAddMenuEntry("Wave Android", 5); //shader5
+	glutAddMenuEntry("FireFly Android", 6); //shader6
+	glutAddMenuEntry("Circle Android", 7); //shader7
 	glutAttachMenu(GLUT_RIGHT_BUTTON);	//與右鍵關聯
 
 	pShaderMenu = glutCreateMenu(pShaderMenuEvents);
@@ -128,7 +129,8 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("Gray", 3);
 	glutAddMenuEntry("Quant", 1);
 	glutAddMenuEntry("Colorful", 2);
-	glutAddMenuEntry("p_shader5", 5);
+	glutAddMenuEntry("Chaos BG", 5); //p_shader5
+	glutAddMenuEntry("Water BG", 6); //p_shader6
 	glutAttachMenu(GLUT_RIGHT_BUTTON);	//與右鍵關聯
 
 	ModeMenu = glutCreateMenu(ModeMenuEvents);//建立右鍵菜單
@@ -487,8 +489,8 @@ void cannon(int frame) {
 	case 24:
 	
 	case 26:
-		offsets[2][10] -= 0.02;
-		offsets[2][13] += 0.02;
+		offsets[2][10] += 0.05;
+		offsets[2][13] += 0.05;
 		angles[1][10] += 22.5;
 		angles[1][13] -= 22.5;
 
@@ -523,8 +525,8 @@ void cannon(int frame) {
 	case 45:
 	case 46:
 	case 47:
-		offsets[2][10] += 0.02;
-		offsets[2][13] -= 0.02;
+		offsets[2][10] -= 0.05;
+		offsets[2][13] -= 0.05;
 		angles[1][10] -= 22.5;
 		angles[1][13] += 22.5;
 		break;
@@ -1276,6 +1278,11 @@ void reloadshader()
 		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
 		{ GL_FRAGMENT_SHADER,  "shader6.fp" },//fragment shader
 		{ GL_NONE, NULL } };
+
+	ShaderInfo shader7[] = {
+		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "shader7.fp" },//fragment shader
+		{ GL_NONE, NULL } };
 	
 
 	glEnable(GL_DEPTH_TEST);
@@ -1315,6 +1322,11 @@ void reloadshader()
 	case 6:
 
 		program = LoadShaders(shader6);//Åª¨úshader
+
+		break;
+	case 7:
+
+		program = LoadShaders(shader7);//Åª¨úshader
 
 		break;
 	}
@@ -1372,6 +1384,10 @@ void reloadpshader()
 		{ GL_FRAGMENT_SHADER,  "picture_shader5.fp" },//fragment shader
 		{ GL_NONE, NULL } };
 
+	ShaderInfo picture_shaders6[] = {
+		{ GL_VERTEX_SHADER, "picture.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "picture_shader6.fp" },//fragment shader
+		{ GL_NONE, NULL } };
 	switch (oNo) {
 	case 0:
 
@@ -1403,6 +1419,11 @@ void reloadpshader()
 		picture_program = LoadShaders(picture_shaders5);
 
 		break;
+	case 6:
+
+		picture_program = LoadShaders(picture_shaders6);
+
+		break;
 	}
 }
 
@@ -1421,7 +1442,12 @@ void display(){
 		delta = 0.5;
 	}
 	expansion_co += delta;
-	a += 0.2;
+	if (a > 65535.0)
+		a = 0.0;
+	else
+		a += 0.2;
+	
+	std::cout << a << std::endl;
 	//glUniform1f(glGetUniformLocation(try_program, "iGlobalTime"), globaltime);
 	//glUniform3f(glGetUniformLocation(try_program, "iResolution"), 800, 600, 0);
 	//glDrawArrays(GL_POINTS, 0, sizeof(g_vertex_buffer_data) / 8);
@@ -1717,7 +1743,7 @@ void updateModels(){
 
 	Scale[15] = scale(0.1, 0.1, 0.1);
 	Rotatation[15] = rotate(angles[1][15] + 90, 0, 1, 0) * rotate(-90, 0, 0, 1);
-	Translation[15] = translate(offsets[0][15], 0.45, offsets[2][15]);
+	Translation[15] = translate(offsets[0][15], 0.45, offsets[2][15] + 0.5);
 	Models[15] = Models[10] * Translation[15] * Scale[15] * Rotatation[15];
 
 	//left arm
@@ -1732,7 +1758,7 @@ void updateModels(){
 	Scale[16] = scale(0.1, 0.1, 0.1);
 
 	Rotatation[16] = rotate(angles[1][16] - 90, 0, 1, 0) * rotate(90, 0, 0, 1);
-	Translation[16] = translate(offsets[0][16], 0.45, offsets[2][16] + 0.2);
+	Translation[16] = translate(offsets[0][16], 0.45, offsets[2][16] + 0.5);
 	Models[16] = Models[13] * Translation[16] * Scale[16] * Rotatation[16];
 
 }
@@ -1902,6 +1928,9 @@ void ShaderMenuEvents(int option){
 
 		break;
 	case 6:
+
+		break;
+	case 7:
 
 		break;
 	}
