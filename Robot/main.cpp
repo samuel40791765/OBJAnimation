@@ -117,11 +117,12 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("Bling", 1);
 	glutAddMenuEntry("Toon", 2);
 	glutAddMenuEntry("Pixel", 3);
-	glutAddMenuEntry("shader4", 4);
-	glutAddMenuEntry("shader5", 5);
-	glutAddMenuEntry("shader6", 6);
-	glutAddMenuEntry("Abstract", 7);
-	glutAddMenuEntry("Energy", 8);
+	glutAddMenuEntry("Gold Android", 4); //shader4
+	glutAddMenuEntry("Wave Android", 5); //shader5
+	glutAddMenuEntry("FireFly Android", 6); //shader6
+	glutAddMenuEntry("Circle Android", 7); //shader7
+  glutAddMenuEntry("Abstract", 8);
+	glutAddMenuEntry("Energy", 9);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);	//與右鍵關聯
 
 	pShaderMenu = glutCreateMenu(pShaderMenuEvents);
@@ -131,7 +132,9 @@ int main(int argc, char** argv){
 	glutAddMenuEntry("Quant", 1);
 	glutAddMenuEntry("Colorful", 2);
 	glutAddMenuEntry("p_shader5", 5);
-	glutAddMenuEntry("Abstract", 6);
+	glutAddMenuEntry("Chaos BG", 5); //p_shader5
+	glutAddMenuEntry("Water BG", 6); //p_shader6
+  glutAddMenuEntry("Abstract", 7);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);	//與右鍵關聯
 
 	ModeMenu = glutCreateMenu(ModeMenuEvents);//建立右鍵菜單
@@ -1287,7 +1290,10 @@ void reloadshader()
 		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
 		{ GL_FRAGMENT_SHADER,  "shader6.fp" },//fragment shader
 		{ GL_NONE, NULL } };
-
+	ShaderInfo shader7[] = {
+		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "shader7.fp" },//fragment shader
+		{ GL_NONE, NULL } };
 	ShaderInfo abstract_shaders[] = {
 		{ GL_VERTEX_SHADER, "bling.vp" },//vertex shader
 		{ GL_FRAGMENT_SHADER,  "robotabstract.fp" },//fragment shader
@@ -1337,11 +1343,16 @@ void reloadshader()
 
 		break;
 	case 7:
-		program = LoadShaders(abstract_shaders);
+
+		program = LoadShaders(shader7);//Åª¨úshader
+
 		break;
-	case 8:
+  case 8:
+    program = LoadShaders(abstract_shaders);
+		break;
+	case 9:
 		program = LoadShaders(noise_shaders);
-		break;
+     break;
 	}
 
 	glUseProgram(program);//uniform°Ñ¼Æ¼Æ­È«e¥²¶·¥ýuse shader
@@ -1396,12 +1407,15 @@ void reloadpshader()
 		{ GL_VERTEX_SHADER, "picture.vp" },//vertex shader
 		{ GL_FRAGMENT_SHADER,  "picture_shader5.fp" },//fragment shader
 		{ GL_NONE, NULL } };
-
 	ShaderInfo abstract_shaders[] = {
 		{ GL_VERTEX_SHADER, "picture.vp" },//vertex shader
 		{ GL_FRAGMENT_SHADER,  "abstract.fp" },//fragment shader
 		{ GL_NONE, NULL } };
 
+	ShaderInfo picture_shaders6[] = {
+		{ GL_VERTEX_SHADER, "picture.vp" },//vertex shader
+		{ GL_FRAGMENT_SHADER,  "picture_shader6.fp" },//fragment shader
+		{ GL_NONE, NULL } };
 	switch (oNo) {
 	case 0:
 
@@ -1434,8 +1448,12 @@ void reloadpshader()
 
 		break;
 	case 6:
-		picture_program = LoadShaders(abstract_shaders);
+		picture_program = LoadShaders(picture_shaders6);
+
 		break;
+    case 7:
+      picture_program = LoadShaders(abstract_shaders);
+      break;
 	}
 }
 
@@ -1454,7 +1472,12 @@ void display(){
 		delta = 0.5;
 	}
 	expansion_co += delta;
-	a += 0.2;
+	if (a > 65535.0)
+		a = 0.0;
+	else
+		a += 0.2;
+	
+	std::cout << a << std::endl;
 	//glUniform1f(glGetUniformLocation(try_program, "iGlobalTime"), globaltime);
 	//glUniform3f(glGetUniformLocation(try_program, "iResolution"), 800, 600, 0);
 	//glDrawArrays(GL_POINTS, 0, sizeof(g_vertex_buffer_data) / 8);
@@ -1947,7 +1970,12 @@ void ShaderMenuEvents(int option){
 
 		break;
 	case 7:
+
 		break;
+    case 8:
+      break;
+    case 9:
+      break;
 	}
 }
 
@@ -2001,6 +2029,8 @@ void pShaderMenuEvents(int option) {
 
 		break;
 	case 6:
+		break;
+  case 7:
 		break;
 	}
 }

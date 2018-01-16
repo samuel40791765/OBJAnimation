@@ -80,5 +80,6 @@ void main( void ) {
    
 	vFragColor = vec4(d.x,d.y,d.z,1.0);
 	vFragColor += textureColor;
+	
 }	
     
