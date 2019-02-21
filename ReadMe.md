@@ -5,7 +5,7 @@ Animated an Android OBJ File with various Shader Effects.
 Fundamentals used include the GLSL Shader Language(Fragment and Vertex Buffers), 3D Animation Techniques, etc.
 Movements include walking, jumping, high jumping, head spinning, arm spinning, uppercut punch and cannon shooting.
 
-Video of all animations and shader effects:
+Video of all animations and shader effects: </br>
 [![Watch the video](https://img.youtube.com/vi/NAINiRZRkaE/hqdefault.jpg)](https://youtu.be/NAINiRZRkaE)
 </br></br>
 
