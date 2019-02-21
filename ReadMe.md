@@ -6,7 +6,7 @@ Fundamentals used include the GLSL Shader Language(Fragment and Vertex Buffers),
 Movements include walking, jumping, high jumping, head spinning, arm spinning, uppercut punch and cannon shooting.
 
 Video of all animations and shader effects:
-[![Watch the video](https://img.youtube.com/vi/NAINiRZRkaE/maxresdefault.jpg)](https://youtu.be/NAINiRZRkaE)
+[![Watch the video](https://img.youtube.com/vi/NAINiRZRkaE/hqdefault.jpg)](https://youtu.be/NAINiRZRkaE)
 </br></br>
 
 Images: </br>
